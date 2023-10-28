@@ -1,76 +1,66 @@
 <template>
   <headerVue></headerVue>
-  <main>
-    <div class="container use-full">
+  <main class="main-login">
+    <div class="container">
       <div class="row login-content">
-        <div class="col-md-6 offset-md-3 shadow-lg p-3 mb-5 rounded login-main">
-          <div class="login-top">
-            <p class="login-name">LOGIN</p>
-          </div>
+        <div class="col-md-8 offset-md-2 rounded login-main use-full">
+          <div class="form-full">
+            <form @submit="loginUser" class="form-content">
+              <div class="login-top">
+                <p class="login-name">LOGIN</p>
+              </div>
+              <div class="use-detail">
+                <div class="mb-3">
+                  <div class="form-group row">
+                    <div class="col-md-3 col-sm-3 col-lg-3">
+                      <label for="phone">Phone:</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-lg-9">
+                      <input class="form-control" type="text" id="phone" v-model="phone" required />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="use-detail">
+                <div class="mb-3">
+                  <div class="">
+                    <div class="form-group row">
+                      <div class="col-md-3 col-sm-3 col-lg-3">
+                        <label for="password">Password:</label>
+                      </div>
+                      <div class="col-md-9 col-sm-9 col-lg-9">
+                        <input
+                          class="form-control"
+                          type="password"
+                          id="password"
+                          v-model="password"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          <form @submit="loginUser">
-            <div class="use-detail">
-              <div class="mb-3">
-                <div class="row">
-                  <div class="form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" v-model="phone" required />
-                  </div>
-                </div>
+              <div class="btn-login-full">
+                <button class="btn login-btn" type="submit">Đăng Nhập</button>
               </div>
-            </div>
-            <div class="use-detail">
-              <div class="mb-3">
-                <div class="row">
-                  <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" v-model="password" required />
-                  </div>
-                </div>
+
+              <p class="text-center mt-4 " style="color: rgba(237, 167, 55, 0.982);" v-if="showMessage">{{ message }}</p>
+              <div class="if-no-tk">
+                <p class="if-no-tk-p">
+                  Nếu bạn chưa có tài khoản hãy
+                  <router-link v-if="!loginOn" to="/register" class="">Register</router-link>
+                  để được nhiều ưu đãi
+                </p>
               </div>
-            </div>
-            <span class="d-block">{{ message }}</span>
-            <button type="submit">Login</button>
-            <p v-if="errorMessage">{{ errorMessage }}</p>
-            <div class="if-no-tk">
-              <p>
-                Nếu bán chưa có tài khoản hãy
-                <router-link v-if="!loginOn" to="/register" class="">Register</router-link>
-                để được nhiều ưu đãi
-              </p>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </main>
-  <form>
-    <div class="use-detail">
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-lg-2">
-            <label for="phone" class="form-label">Phone</label>
-          </div>
-          <div class="col-lg-10">
-            <input type="phone" class="form-control" id="phone-login" />
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-lg-2">
-            <label for="pass-login" class="form-label">Password</label>
-          </div>
-          <div class="col-lg-10">
-            <input type="password" class="form-control" id="pass-login" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="btn-login-full">
-      <button type="submit" class="btn login-btn">Đăng nhập</button>
-    </div>
-  </form>
+
   <footerVue></footerVue>
 </template>
 
@@ -85,7 +75,8 @@ export default {
     return {
       phone: '',
       password: '',
-      errorMessage: ''
+      message: '',
+      showMessage: false
     }
   },
   methods: {
@@ -97,27 +88,43 @@ export default {
         formData.append('password', this.password)
         console.log(formData)
         const response = await axios.post('http://localhost:3000/login/access', formData)
-        console.log(response.data)
+        console.log("user",response.data.user)
+        if (response.data.user === undefined) {
+          this.message = 'Số điện thoại hoặc mật khẩu không chính xác'
+          this.showMessage = true
+          setTimeout(() => {
+            this.showMessage = false
+          }, 1000)
+          return
+        }if (response.data.user === undefined) {
+          this.message = 'Số điện thoại hoặc mật khẩu không chính xác'
+          this.showMessage = true
+          setTimeout(() => {
+            this.showMessage = false
+          }, 1000)
+          return
+        }
+        sessionStorage.setItem('id', response.data.user._id)
+        sessionStorage.setItem('name', response.data.user.name)
+        sessionStorage.setItem('phone', response.data.user.phone)
+        sessionStorage.setItem('rule', response.data.user.rule)
 
-        sessionStorage.setItem('id', response.data._id)
-
-        sessionStorage.setItem('name', response.data.name)
-        sessionStorage.setItem('phone', response.data.phone)
-        if (response.data.rule === true) {
-          // Redirect to admin page
+        if (response.data.user.rule === true) {
           window.location.href = '/admin'
-        } else {
+          // Redirect to admin page
+        } else if (response.data.user.rule === false) {
           // Redirect to user page
           window.location.href = '/'
         }
+        // const user =response.data.user
+        this.message = response.data.message
+        this.showMessage = true
+        setTimeout(() => {
+          this.showMessage = false
+        }, 1000)
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          this.errorMessage = error.response.data.error
-          window.location.reload()
-        } else {
-          console.log(error)
-          this.errorMessage = 'An error occurred while logging in'
-        }
+        console.log(error)
+        // this.errorMessage = 'An error occurred while logging in'
       }
     }
   },
@@ -129,18 +136,33 @@ export default {
 </script>
 
 <style>
+.main-login {
+  background-color: #205a40;
+}
 .login-name {
   text-align: center;
   font-size: 25px;
   font-family: 'Courier New', Courier, monospace;
   font-weight: 600;
+  color: #000000;
 }
+.form-full {
+  padding: 100px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0px 0px 50px rgba(10, 9, 9, 0.271);
+  background: url('/img/png/nen.jpg') top center / cover no-repeat;
 
-.use-full {
-  margin-top: 100px;
-  margin-bottom: 100px;
+  border-radius: 10%;
 }
-
+.form-content {
+  box-shadow: 0px 0px 50px rgba(203, 197, 197, 0.271);
+  background-color: #ffffffee;
+  padding: 10px 40px;
+  border-radius: 50px;
+  opacity: 0.99;
+  width: 100%;
+}
 .if-no-tk {
   margin-top: 10px;
   text-align: center;
@@ -148,39 +170,49 @@ export default {
 
 .if-no-tk-p {
   margin-top: 10px;
-  color: #ffffff;
+  color: #000000;
   text-decoration: none;
 }
+.if-no-tk-p a {
+  color: rgb(242, 163, 6);
+  text-decoration: none;
+  text-transform: uppercase;
+}
 
-.if-no-tk-p:hover {
-  color: rgb(255, 255, 255);
+.if-no-tk-p a:hover {
+  color: rgb(0, 0, 0);
   text-decoration: none;
   background-color: rgb(79, 227, 202);
   border-radius: 60px;
   padding: 5px;
 }
 
-.login-main {
-  background-color: #668245;
-}
-
 .use-detail label {
-  color: #ced2a9;
+  color: #000000;
 }
 
 .login-btn {
   justify-content: center;
-  background-color: #253216;
+  background-color: #000000;
   color: #ffffff;
-  opacity: 0.7;
+  /* opacity: 0.7; */
 }
 
 .login-btn:hover {
-  background-color: rgb(79, 227, 202);
-  opacity: 0.6;
+  background-color: rgb(48, 232, 201);
+  opacity: 0.8;
 }
 
 .btn-login-full {
   text-align: center;
+}
+@media screen and (max-width: 374px) {
+  .form-content {
+    padding: 10px;
+    width: fit-content;
+  }
+  /* .use-full{
+    padding: 10px;
+  } */
 }
 </style>

@@ -21,7 +21,7 @@ import footerVue from '../components/footer.vue'
         <a class="rounded" href="#simple-list-item-2">Service</a>
         <a class="rounded" href="#simple-list-item-3">OUR CORE VALUE</a>
       </div>
-
+      
       <div class="about-main">
         <div
           data-bs-spy="scroll"

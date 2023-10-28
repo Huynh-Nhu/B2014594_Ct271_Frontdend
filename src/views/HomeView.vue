@@ -74,7 +74,7 @@ export default {
     <div class="container">
       <div class="row d-flex product-1">
         <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-4 img_p1">
-          <img src="public/img/product/Demo.png" alt="" style="width: 100%; height: 100%" />
+          <img src="public/img/product/Demo.png" alt="" style="width: 100%; " />
         </div>
         <div class="col-md-6 col-xl-8 col-lg-6 col-xxl-8 text_p1">
           <p class="text_main1">
@@ -89,7 +89,7 @@ export default {
     <div class="container">
       <div class="row d-flex">
         <div class="col-sm-0 col-md-4 -col-lg-4">
-          <img src="public/img/product/Tra-Xanh-Dao.png" alt="" style="width: 100%; height: 100%" />
+          <img src="public/img/product/Tra-Xanh-Dao.png" alt="" style="width: 100%; " />
         </div>
         <div class="col-sm-12 col-md-4 -col-lg-4 mt-5 text_p2">
           <p>
@@ -108,7 +108,7 @@ export default {
         </div>
 
         <div class="col-sm-0 col-md-4 -col-lg-4">
-          <img src="public/img/product/TRA-NHO.png" alt="" style="width: 100%; height: 100%" />
+          <img src="public/img/product/TRA-NHO.png" alt="" style="width: 100%; " />
         </div>
       </div>
     </div>
@@ -125,7 +125,7 @@ export default {
           </p>
         </div>
         <div class="col-md-4 col-xl-4 col-xxl-4 img_p3">
-          <img src="public/img/product/sua_tuoi.png" style="width: 100%; height: 100%" alt="" />
+          <img src="public/img/product/sua_tuoi.png" style="width: 100%; " alt="" />
         </div>
       </div>
     </div>
@@ -134,7 +134,7 @@ export default {
         <div class="col-md-4 col-xl-4 col-xxl-4 img_p4">
           <img
             src="public/img/product/dau-socola-da-xay.png"
-            style="width: 100%; height: 100%"
+            style="width: 100%; "
             alt=""
           />
         </div>
@@ -339,6 +339,10 @@ export default {
 }
 .product-seller img:hover {
   margin: -15px;
+}
+.local-home img{
+  border-radius: 25px;
+  margin-bottom: 25px;
 }
 .local-home img:hover{
   content: "shadyu";

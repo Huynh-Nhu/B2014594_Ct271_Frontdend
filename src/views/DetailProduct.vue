@@ -3,52 +3,58 @@
   <main>
     <div class="container my-2">
       <div class="row d-flex">
-        <div class="col-md-6">
-          <img
-            class="img-product"
-            :src="'/img/products/' + product.imageData"
-            alt=""
-            style="width: 100%; "
-          />
+        <div class="col-md-6 col-sm-6">
+          <img class="img-product" :src="'/img/products/' + product.imageData" alt="" />
         </div>
-        <div class="col-md-6 infor-product">
-          <h1>{{ product.name }}</h1>
+        <div class="col-md-6 col-sm-6 info-product">
+          <h1 class="name-product-detail">{{ product.name }}</h1>
 
-          <button class="btn btn-size" @click="selectSize('S')">S</button>
-          <button class="btn btn-size" @click="selectSize('M')">M</button>
-          
+          <p style="text-align: left;">*Vui lòng chọn size để</p>
 
-          <div v-if="selectedSize === 'S' || selectedSize === 'M'">
-            <div class="quantity-container" v-if="selectedSize === 'S'">
-              <button class="quantity-button" @click="decreaseQuantity('S')">-</button>
-              <div class="quantity">{{ quantityS }}</div>
-              <button class="quantity-button" @click="increaseQuantity('S')">+</button>
+          <div class="row">
+            <div class="col-sm-5 col-md-5 col-lg-5 col-xxl-5">
+              <button class="btn btn-size" @click="selectSize('S')">S</button>
             </div>
-            <div class="quantity-container" v-if="selectedSize === 'M'">
-              <button class="quantity-button" @click="decreaseQuantity('M')">-</button>
-              <div class="quantity">{{ quantityM }}</div>
-              <button class="quantity-button" @click="increaseQuantity('M')">+</button>
+            <div class="col-sm-1 col-md-1"></div>
+            <div class="col-sm-5 col-md-5 col-lg-5 col-xxl-5">
+              <button class="btn btn-size" @click="selectSize('M')">M</button>
             </div>
           </div>
 
-          <p v-if="selectedSize === 'S'">Tổng giá tiền (S): {{ totalPriceS }}</p>
-          <p v-if="selectedSize === 'M'">Tổng giá tiền (M): {{ totalPriceM }}</p>
+          <div class="quantity-full">
+            <div v-if="selectedSize === 'S' || selectedSize === 'M'">
+              <div class="quantity-container" v-if="selectedSize === 'S'">
+                <button class="quantity-button" @click="decreaseQuantity('S')">-</button>
+                <div class="quantity">{{ quantityS }}</div>
+                <button class="quantity-button" @click="increaseQuantity('S')">+</button>
+              </div>
+              <div class="quantity-container" v-if="selectedSize === 'M'">
+                <button class="quantity-button" @click="decreaseQuantity('M')">-</button>
+                <div class="quantity">{{ quantityM }}</div>
+                <button class="quantity-button" @click="increaseQuantity('M')">+</button>
+              </div>
+            </div>
+
+            <p v-if="selectedSize === 'S'">Tổng giá tiền (S): {{ totalPriceS }}</p>
+            <p v-if="selectedSize === 'M'">Tổng giá tiền (M): {{ totalPriceM }}</p>
+          </div>
+          <textarea  class="form-control mt-3" v-model="customerNote" placeholder="Ghi chú cho khách hàng"></textarea>
+
           <p>Thông Tin: {{ product.details }}</p>
-          <textarea v-model="customerNote" placeholder="Ghi chú cho khách hàng"></textarea>
-          <button @click="addCart(product._id)">Thêm Sản Phẩm</button>
+          <button  class="btn btn-addP" @click="addCart(product._id)">Thêm Sản Phẩm</button>
+          <div v-if="showMessage" class="alert-1" role="alert">
+            {{ message }}
+          </div>
+        </div>
         </div>
         <!-- <p v-else style="color: red">Vui lòng chọn kích thước trước khi thêm vào giỏ hàng!</p> -->
-        <div v-if="showMessage" class="alert alert-light" role="alert">
-          {{ message }}
-        </div>
-      </div>
     </div>
   </main>
   <footerVue></footerVue>
 </template>
 
 <script>
-import {useCartStore} from '../stores/counter'
+import { useCartStore } from '../stores/counter'
 import { useRouter } from 'vue-router'
 import headerVue from '../components/header.vue'
 import footerVue from '../components/footer.vue'
@@ -101,8 +107,8 @@ export default {
         this.quantityM--
       }
     },
-     async addCart(productId) {
-      const cartStore = useCartStore();
+    async addCart(productId) {
+      const cartStore = useCartStore()
       console.log(sessionStorage.getItem('id'))
       if (this.loginOn) {
         if (this.selectedSize) {
@@ -120,19 +126,19 @@ export default {
           }
           await axios.post('http://localhost:3000/cart/add', productAddCart).then((response) => {
             console.log(response.data)
-            this.message = 'thêm sản phẩm thành công'
+            this.message = 'Thêm Sản Phẩm Thành Công'
             this.showMessage = true
             setTimeout(() => {
               this.showMessage = false
-            }, 500)
-            cartStore. incrementCartQuantity();
+            }, 1000)
+            cartStore.incrementCartQuantity()
           })
         } else {
-          this.message = 'Vui chon size của sản phẩm '
+          this.message = 'Vui Chọn Size Trước Khi Thêm '
           this.showMessage = true
           setTimeout(() => {
-              this.showMessage = false
-            }, 500)
+            this.showMessage = false
+          }, 1000)
         }
       } else {
         // Chưa đăng nhập, chuyển hướng đến trang đăng nhập
@@ -162,36 +168,84 @@ export default {
 </script>
 
 <style>
+.name-product-detail{
+  font-size: 50px;
+  font-family:'Times New Roman', Times, serif0;
+  font-weight: 800;
+  background-color: #0e4e49;
+  color:white;
+  border-radius: 25px;
+  border: 5px solid #c4c89f;
+  margin-bottom: 25px;
+}
 .img-product {
   background-color: rgb(17, 68, 60);
-  border: 5px solid #c4c89f;
+  /* border: 5px solid #c4c89f; */
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.668);
+  width: 100%;
+  height: 100%;
   border-radius: 25px;
 }
 
 .quantity-container {
   display: flex;
   align-items: center;
+  margin-top: 25px;
+  justify-content: center;
+}
+.info-product {
+  border: #0e4e49 8px solid;
+  border-radius: 25px;
+  padding: 50px;
+  text-align: center;
+}
+.quantity-full p{
+  margin-top: 25px;
+  font-size: 30px;
 }
 
 .quantity-button {
   border: none;
-  background-color: lightgray;
-  padding: 5px 10px;
+  background-color: rgb(36, 95, 74);
+  color: aliceblue;
+  padding: 5px 15px;
   cursor: pointer;
+}
+.quantity-button:hover{
+  background-color: #7fe0db;
+  color: black;
 }
 
 .quantity {
-  margin: 0 10px;
+  margin: 0 px;
+  padding: 0 15px;
   font-weight: bold;
 }
-.btn-size{
+.btn-size {
   background-color: #c4c89f;
-  padding:2px 50px;
-  margin-right: 50px;
-}
-.btn-size:hover{
-  background-color: #0e4e49;
-  color:aliceblue;
+  padding: 5px 50px;
 }
 
+.btn-size:hover {
+  background-color: #0e4e49;
+  color: aliceblue;
+}
+.btn-addP{
+  background-color: #0e4e49;
+  color: white;
+}
+.btn-addP:hover{
+  color:black;
+  background-color: #01eadf;
+}
+.alert-1{
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+  background-color:#1f9f9f;
+  padding: 15px 0;
+  margin-top: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.668);
+
+  
+}
 </style>

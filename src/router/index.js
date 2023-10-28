@@ -13,9 +13,18 @@ import EditProductView from '../views/EditProductView.vue'
 import ProductView from '../views/ProductView.vue'
 import DetailProduct from '../views/DetailProduct.vue'
 import CartProduct from '../views/CartProduct.vue'
+import ListOrderView  from '../views/ListOrderView.vue'
+import  RegisterAdminView from '../views/RegisterAdminView.vue'
+import NoteFoundView from  '../views/NoteFoundView.vue'
+import OrderUserView from '../views/OrderUserView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: "/:pathMatch(.*)*",
+      name: "notfound",
+      component: NoteFoundView
+    },
     {
       path: '/',
       name: 'home',
@@ -23,7 +32,6 @@ const router = createRouter({
     },
 
     {
-      
       path: '/admin',
       name: 'adminHome',
       component: AdminView
@@ -110,6 +118,22 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView
+    },
+    {
+      path: '/registerAdmin',
+      name: 'registerAdmin',
+      component: RegisterAdminView
+    },
+
+    {
+      path: '/listOrder',
+      name: 'adminOrder',
+      component: ListOrderView
+    },
+    {
+      path:'/orderUser',
+      name: 'OrderUser',
+      component: OrderUserView
     }
   ]
 })

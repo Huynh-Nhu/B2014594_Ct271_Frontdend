@@ -1,16 +1,23 @@
 <template>
   <headerAdminVue></headerAdminVue>
-  hien danh sach san pham
-  <br />
-  <table class="table">
+
+  <h2 class="text-name-admin">Danh Sách Sản Phẩm</h2>
+  <div class="back">
+    <router-link to="/listCate" class=""
+      ><i class="fa fa-arrow-left" aria-hidden="true"></i
+    ></router-link>
+  </div>
+
+  <table class="table text-center">
     <thead>
       <tr>
         <th scope="col">Tên sản phẩm</th>
         <th scope="col">Hình Ảnh</th>
-        <th scope="col">SizeS</th>
-        <th scope="col">SizeM</th>
+        <th scope="col">Size S</th>
+        <th scope="col">Size M</th>
         <th scope="col">thông tin sản phẩm</th>
         <th scope="col">Edit</th>
+        <th scope="col">Removed</th>
       </tr>
     </thead>
     <tbody>
@@ -31,32 +38,38 @@
         <td>{{ product.sizeM }}</td>
         <td>{{ product.details }}</td>
         <td>
-          <button><router-link :to="'/editProduct/' + product._id"> Sửa</router-link></button>
+          <button class="btn-edit btn">
+            <router-link :to="'/editProduct/' + product._id">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </router-link>
+          </button>
         </td>
         <td>
-          <button @click="deleteProduct(product._id)">Xóa</button>
+          <button class="btn-edit btn" @click="deleteProduct(product._id)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
+  <div class="text-center next-add mt-5">
+    <RouterLink :to="'/listCate/' + this.categoryId + '/products'">Thêm sản phẩm</RouterLink>
 
-  <RouterLink :to="'/listCate/' + this.categoryId + '/products'">Them san pham</RouterLink>
+  </div>
 </template>
+
 <script>
 import headerAdminVue from '../components/HeaderAdmin.vue'
-
 import axios from 'axios'
-// import hinh from '../'
 export default {
   data() {
     return {
       categories: [],
       products: []
-      // image: ''
     }
   },
-  components:{
-    headerAdminVue,
+  components: {
+    headerAdminVue
   },
   created() {
     this.categoryId = this.$route.params.id // Lấy ID từ URL và gán cho biến categoryId
@@ -79,7 +92,7 @@ export default {
               this.products = Object.values(productAll)
               console.log('productAll', productAll)
             })
-
+            this.fetchShowImage()
             // console.log(response.data);
           })
           .catch((error) => {
@@ -123,3 +136,32 @@ export default {
   }
 }
 </script>
+
+<style>
+.btn-edit {
+  font-size: 25px;
+  color: rgba(196, 59, 59, 0.734);
+}
+.btn-edit a {
+  font-size: 25px;
+
+  text-decoration: none;
+  color: rgb(120, 204, 219);
+  padding: 10px;
+}
+.btn-edit a:hover {
+  color: black;
+}
+.next-add a{
+   text-decoration: none;
+   font-size: 17px;
+  text-transform: uppercase;
+  color: black;
+  background-color:  rgba(185, 160, 97, 0.853);
+  padding: 10px;
+  border: 5px solid rgba(53, 51, 51, 0.241);
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.318);
+
+}
+</style>

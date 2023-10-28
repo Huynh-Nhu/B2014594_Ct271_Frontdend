@@ -4,7 +4,6 @@
       <div class="col-md-3 col-lg-2 logo-dsp">
         <div class="logo-web">
           <router-link to="/" class="">
-            
             <img class="logo" href="" src="/public/img/logo/1.png" alt="logo" />
           </router-link>
         </div>
@@ -26,22 +25,41 @@
                 <i class="fa fa-search"></i>
               </button>
 
-              <button type="button" class="btn  position-relative cart-btn" @click="goAdd" >
-                <router-link to="/cart" class="">
+              <button type="button" class="btn position-relative cart-btn">
+                <router-link to="/cart" class="" @click="goAdd">
                   <i class="fa fa-shopping-basket"></i>
                 </router-link>
                 <span
-                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill add-quantyti"
                 >
                   {{ getCartQuantity }}
                 </span>
               </button>
 
+              <div v-if="loginOn" class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle mx-3"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="ti-user"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <p class="mx-3" v-if="loginOn">Name: {{ name }}</p>
+                  <router-link to="/orderUser" class="dropdown-item">
+                    Hóa Đon
+                    <i class="ti-receipt buil-user"></i>
+                  </router-link>
+
+                  <router-link class="dropdown-item" v-if="loginOn" @click="logoutUser" to="/"
+                    >Logout</router-link
+                  >
+                </ul>
+              </div>
+
               <div class="use-content">
                 <ul class="use-menu d-flex">
-                  <h1 v-if="loginOn">{{ name }}</h1>
-
-                  <router-link v-if="loginOn" @click="logoutUser" to="/">Logout</router-link>
                   <router-link v-if="!loginOn" to="/login" class="">Login</router-link>
                   <router-link v-if="!loginOn" to="/register" class="">Register</router-link>
                 </ul>
@@ -63,14 +81,14 @@ export default {
   data() {
     return {
       loginOn: false,
-      name: '',
+      name: ''
       // cartQuantity: 0
     }
   },
   computed: {
     getCartQuantity() {
-      const cartStore = useCartStore();
-      return cartStore.cartQuantity;
+      const cartStore = useCartStore()
+      return cartStore.cartQuantity
     }
   },
   mounted() {
@@ -79,7 +97,7 @@ export default {
       this.loginOn = true
       this.name = sessionStorage.getItem('name')
     }
-    
+
     // this.fetchCart();
   },
   methods: {
@@ -93,14 +111,11 @@ export default {
 
       const cartStore = useCartStore()
       cartStore.cartQuantity = 0
-
     },
-    goAdd(){
+    goAdd() {
       const cartStore = useCartStore()
       cartStore.cartQuantity = 0
     }
-    
-
   }
 }
 </script>
@@ -137,7 +152,7 @@ export default {
   padding: 20px;
   position: unset;
   height: 100%;
-  margin-top:30px;
+  margin-top: 30px;
 }
 
 .nav-details {
@@ -190,17 +205,20 @@ export default {
 .icon-content .btn {
   color: rgb(79, 227, 202);
   background-color: black;
-  border-radius: 90px;
+  /* border-radius: 90px; */
 }
 .icon-content .btn a {
   color: rgb(79, 227, 202);
   background-color: black;
-  border-radius: 90px;
+  /* border-radius: 90px; */
 }
 
-
 .icon-content .btn:hover {
-  border-color: pink;
+  background-color: rgb(255, 255, 255);
+  border: 15px;
+}
+.icon-content .btn a:hover {
+  background-color: rgb(255, 255, 255);
   border: 15px;
 }
 
@@ -218,7 +236,39 @@ export default {
   margin-top: 10px;
 }
 .use-menu a:hover {
-  font-size: 15px;
-  color: #a7d573;
+  color: #ffffff;
+  width: fit-content;
 }
+.add-quantyti {
+  background-color: #fafff4;
+  color: #253216;
+}
+.dropdown-menu {
+  background-color: #2f6451;
+  border: white solid 2px;
+  color: white;
+  padding: 5px;
+}
+
+.dropdown-menu a{
+  text-decoration: none;
+  /* margin-left: 15px; */
+
+}
+
+
+.dropdown-menu a {
+  color: #fafff4;
+  font-size:16px;
+  list-style: none;
+  padding: 2px;
+}
+.dropdown-item:hover{
+ 
+  padding: 5px;
+  background-color: white;
+  color:black ;
+ 
+}
+
 </style>
