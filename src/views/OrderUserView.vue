@@ -56,6 +56,11 @@
                   </div>
                 </div>
               </div>
+              <div class="card-footer">
+             
+                    <p class="card-text mx-2">Ngày giao hàng: {{ order.order.dayCurrent }}</p>
+                
+              </div>
             </div>
           </div>
         </div>
@@ -155,6 +160,9 @@ export default {
 </script>
 
 <style>
+.order-main{
+  height: 500px;
+}
 .btn-seen {
   text-align: end;
 }

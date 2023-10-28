@@ -21,9 +21,9 @@
           </div>
           <div class="use-bottom">
             <div class="icon-content d-flex">
-              <button class="search-btn btn mx-3">
+              <!-- <button class="search-btn btn mx-3">
                 <i class="fa fa-search"></i>
-              </button>
+              </button> -->
 
               <button type="button" class="btn position-relative cart-btn">
                 <router-link to="/cart" class="" @click="goAdd">

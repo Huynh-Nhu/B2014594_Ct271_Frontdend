@@ -19,6 +19,9 @@
         </div>
       </div>
       <div class="col-md-9">
+        <button class="search-btn btn mx-3">
+                <i class="fa fa-search"></i>
+              </button>
         <h1 class="h1-name">Hiện danh sách sản phẩm</h1>
         <div class="row d-flex">
           <div v-for="product in products" :key="product._id" class="product col-md-4">

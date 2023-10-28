@@ -1,26 +1,28 @@
 <template>
-    <headerAdminVue></headerAdminVue>
+  <headerAdminVue></headerAdminVue>
 
   <div class="text-center">
     <table class="table table-bordered">
       <thead class="table-dark">
         <tr>
-          <th  scope="col">Tên khách hàng</th>
-          <th  scope="col" >Chi tiết đơn hàng</th>
-          <th  scope="col" >Tổng số lượng</th>
-          <th  scope="col" >Tổng Hóa Đơn</th>
-          <th  scope="col" >Ngày đặt đơn</th>
-          <th  scope="col" >Địa Chỉ</th>
-          <th  scope="col" >Ghi Chú</th>
-          <th  scope="col" >Trạng thái</th>
-          <th  scope="col" >Thao Tác</th>
+          <th scope="col">Tên khách hàng</th>
+          <th scope="col">Chi tiết đơn hàng</th>
+          <th scope="col">Tổng số lượng</th>
+          <th scope="col">Tổng Hóa Đơn</th>
+          <th scope="col">Ngày đặt đơn</th>
+          <th scope="col">Địa Chỉ</th>
+          <th scope="col">Ghi Chú</th>
+          <th scope="col">Trạng thái</th>
+          <th scope="col">Ngày giao</th>
+
+          <th scope="col">Thao Tác</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="order in orders" :key="order.order._id">
           <td>{{ order.user.name }}</td>
           <td>
-            <table class="table  ">
+            <table class="table">
               <thead class="table-secondary">
                 <tr>
                   <th>Tên sản phẩm</th>
@@ -43,6 +45,8 @@
           <td>{{ getOrderAddress(order.orderDetail) }}</td>
           <td>{{ getOrderNote(order.orderDetail) }}</td>
           <td>{{ order.order.status }}</td>
+          <td v-if="order.order.status === 'Đã giao'">{{order.order.dayCurrent }}</td>
+          <td v-else>Chưa xác nhận</td>
           <td>
             <button class="btn btn-dark" @click="updateOrderStatus(order.order._id, 'Đã giao')">
               Xác Nhận Đơn
@@ -55,15 +59,16 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 import headerAdminVue from '../components/HeaderAdmin.vue'
 import axios from 'axios'
 
 export default {
   data() {
     return {
-     
       orders: [],
-     
+      currentDate: ''
     }
   },
   components: {
@@ -74,26 +79,32 @@ export default {
   },
 
   methods: {
-    fetchOrders() {
-      axios
-        .get('http://localhost:3000/order/show')
-        .then((response) => {
-          this.orders = response.data
-            .filter((order) => order.order && order.order.dayOrder)
-            .sort((a, b) => {
-              //sắp hóa đơn có ngày giảm dần
-              if (a.order.dayOrder > b.order.dayOrder) {
-                return -1
-              } else if (a.order.dayOrder < b.order.dayOrder) {
-                return 1
-              }
-              return 0
-            })
-          // console.log(response.data)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+   async fetchOrders() {
+    try{
+      await axios
+         .get('http://localhost:3000/order/show')
+         .then((response) => {
+           this.orders = response.data
+             .filter((order) => order.order && order.order.dayOrder)
+             .sort((a, b) => {
+               //sắp hóa đơn có ngày giảm dần
+               if (a.order.dayOrder > b.order.dayOrder) {
+                 return -1
+               } else if (a.order.dayOrder < b.order.dayOrder) {
+                 return 1
+               }
+               return 0
+             })
+             this.fetchOrders()
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+         
+
+    } catch(err){
+      console.log(err);
+    }
     },
     calculateTotalQuantity(orderDetail) {
       let totalQuantity = 0
@@ -121,21 +132,23 @@ export default {
       }
     },
     async updateOrderStatus(orderId, status) {
-      await axios
-        .put(`http://localhost:3000/order/update/${orderId}`, { status })
-        .then((response) => {
-          const updateOrder = response.data.order
-          console.log(updateOrder)
-          // const orderIndex = this.orders.findIndex(order => order.orderId === updateOrder._id);
-          // console.log(order);
-          // if(orderIndex !== -1){
-          //   this.orders.splice(orderIndex, 1 , updateOrder);
-          // }
-          console.log(response.data)
+      const dayCurrent = moment().format('DD-MM-YYYY HH:mm:ss')
+      try {
+        const response = await axios.put(`http://localhost:3000/order/update/${orderId}`, {
+          status,
+          dayCurrent: dayCurrent
         })
-      this.fetchOrders()
-    },
-    
+        const updateOrder = response.data.order
+        const orderIndex = this.orders.findIndex((order) => order.order._id === updateOrder._id)
+        if (orderIndex !== -1) {
+          this.orders[orderIndex].order.status = updateOrder.status
+          this.orders[orderIndex].currentDate = updateOrder.dayCurrent
+        }
+        this.fetchOrders()
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 }
 </script>
