@@ -15,8 +15,7 @@
               <router-link to="/" class="">HOME</router-link>
               <router-link to="/products" class="">product</router-link>
               <router-link to="/about">ABOUT</router-link>
-              <router-link to="/" class="">Connect</router-link>
-              <router-link to="/" class="">Book</router-link>
+              <router-link to="/connect" class="">Connect</router-link>
             </ul>
           </div>
           <div class="use-bottom">

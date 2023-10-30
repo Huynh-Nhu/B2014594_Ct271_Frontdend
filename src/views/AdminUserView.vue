@@ -23,10 +23,10 @@ export default {
 
   <main class="">
     <h1 class="text-name-admin">User List</h1>
-    <div class="row">
-      <div class="col-md-8 offset-md-2 mt-5 user-main" >
+   
+      <div class=" mt-3 user-main" >
         <table class="table table-striped table-hover text-center">
-          <thead>
+          <thead class="col-table table-dark">
             <tr >
               <th  cope="col">STT</th>
               <th cope="col">Name</th>
@@ -44,14 +44,21 @@ export default {
 
       </div>
 
-    </div>
+   
   </main>
 </template>
 
 <style>
 .user-main{
   border-top: 7px solid black;
-  border-radius: 25px;
+  border-left: 7px solid black;
+
+  border-right: 7px solid black;
+
+  border-radius: 25px 25px 0 0;
   padding: 10px;
+}
+.col-table tr{
+  font-size: 20px;
 }
 </style>

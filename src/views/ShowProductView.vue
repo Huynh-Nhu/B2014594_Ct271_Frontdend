@@ -11,6 +11,8 @@
   <table class="table text-center">
     <thead>
       <tr>
+        <th scope="col">STT</th>
+
         <th scope="col">Tên sản phẩm</th>
         <th scope="col">Hình Ảnh</th>
         <th scope="col">Size S</th>
@@ -21,7 +23,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="product in products" :key="product._id">
+      <tr v-for="(product, index) in products" :key="product._id">
+        <td>{{ index + 1 }}</td>
         <td>{{ product.name }}</td>
 
         <td>
@@ -54,7 +57,6 @@
   </table>
   <div class="text-center next-add mt-5">
     <RouterLink :to="'/listCate/' + this.categoryId + '/products'">Thêm sản phẩm</RouterLink>
-
   </div>
 </template>
 
@@ -152,16 +154,15 @@ export default {
 .btn-edit a:hover {
   color: black;
 }
-.next-add a{
-   text-decoration: none;
-   font-size: 17px;
+.next-add a {
+  text-decoration: none;
+  font-size: 17px;
   text-transform: uppercase;
   color: black;
-  background-color:  rgba(185, 160, 97, 0.853);
+  background-color: rgba(185, 160, 97, 0.853);
   padding: 10px;
   border: 5px solid rgba(53, 51, 51, 0.241);
   border-radius: 25px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.318);
-
 }
 </style>

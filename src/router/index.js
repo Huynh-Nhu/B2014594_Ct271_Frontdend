@@ -17,6 +17,8 @@ import ListOrderView  from '../views/ListOrderView.vue'
 import  RegisterAdminView from '../views/RegisterAdminView.vue'
 import NoteFoundView from  '../views/NoteFoundView.vue'
 import OrderUserView from '../views/OrderUserView.vue'
+import ConnectView from '../views/ConnectView.vue'
+import AdminConnectView from '../views/AdminConnectView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -99,8 +101,6 @@ const router = createRouter({
 
     },
 
-
-
     {
       path: '/about',
       name: 'about',
@@ -134,7 +134,17 @@ const router = createRouter({
       path:'/orderUser',
       name: 'OrderUser',
       component: OrderUserView
-    }
+    },
+    {
+      path:'/connect',
+      name: 'Connect',
+      component:ConnectView
+    },
+    {
+      path:'/adminConnect',
+      name: 'AdminConnect',
+      component:AdminConnectView
+    },
   ]
 })
 

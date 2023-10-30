@@ -2,6 +2,8 @@
   <headerAdminVue></headerAdminVue>
 
   <div class="text-center">
+
+
     <table class="table table-bordered">
       <thead class="table-dark">
         <tr>

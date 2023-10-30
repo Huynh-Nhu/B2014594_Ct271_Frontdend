@@ -9,7 +9,7 @@
         <div class="col-md-6 col-sm-6 info-product">
           <h1 class="name-product-detail">{{ product.name }}</h1>
 
-          <p style="text-align: left;">*Vui lòng chọn size để</p>
+          <p style="text-align: left">*Vui lòng chọn size để</p>
 
           <div class="row">
             <div class="col-sm-5 col-md-5 col-lg-5 col-xxl-5">
@@ -38,16 +38,53 @@
             <p v-if="selectedSize === 'S'">Tổng giá tiền (S): {{ totalPriceS }}</p>
             <p v-if="selectedSize === 'M'">Tổng giá tiền (M): {{ totalPriceM }}</p>
           </div>
-          <textarea  class="form-control mt-3" v-model="customerNote" placeholder="Ghi chú cho khách hàng"></textarea>
+          <textarea
+            class="form-control mt-3"
+            v-model="customerNote"
+            placeholder="Ghi chú cho khách hàng"
+          ></textarea>
 
           <p>Thông Tin: {{ product.details }}</p>
-          <button  class="btn btn-addP" @click="addCart(product._id)">Thêm Sản Phẩm</button>
+          <button class="btn btn-addP" @click="addCart(product._id)">Thêm Sản Phẩm</button>
           <div v-if="showMessage" class="alert-1" role="alert">
             {{ message }}
           </div>
         </div>
+      </div>
+      <div class="related-products">
+        <h3 class="my-5">Sản phẩm liên quan:</h3>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+          <div
+            class="col related-product"
+            v-for="relatedProduct in relatedProducts"
+            :key="relatedProduct._id"
+          >
+            <div class="card h-100">
+              <router-link
+                :to="'/products/' + relatedProduct._id"
+                @click="GetOneProduct(relatedProduct._id)"
+              >
+                <img
+                  v-for="image in relatedProduct.images"
+                  :key="image._id"
+                  :src="'/img/products/' + image.name"
+                  alt=""
+                  style="width: 200px"
+                />
+              </router-link>
+              <div class="card-body">
+                <h5 class="card-title">{{ relatedProduct.name }}</h5>
+                <p class="card-text">
+                 {{ relatedProduct.details }}
+                </p>
+              </div>
+             
+            </div>
+          </div>
         </div>
-        <!-- <p v-else style="color: red">Vui lòng chọn kích thước trước khi thêm vào giỏ hàng!</p> -->
+       
+      </div>
     </div>
   </main>
   <footerVue></footerVue>
@@ -71,7 +108,8 @@ export default {
       priceM: '',
       customerNote: '',
       message: '',
-      showMessage: false // Thêm dòng này để khởi tạo giá trị ban đầu cho showMessage
+      showMessage: false, // Thêm dòng này để khởi tạo giá trị ban đầu cho showMessage
+      relatedProducts: []
     }
   },
   created() {
@@ -85,7 +123,26 @@ export default {
         this.product = response.data
         this.priceS = this.product.sizeS
         this.priceM = this.product.sizeM
-        // console.log(response.data)
+        console.log(this.product.category)
+
+        // LẤY RA SAN PHÂM LIEN QUAN
+
+        const relate = await axios.get('http://localhost:3000/product/home')
+        const relatedProduct = relate.data
+        const filterRelateProduct = relatedProduct.filter(
+          (product) => product.category === this.product.category && product._id !== productId
+        )
+        console.log(filterRelateProduct)
+        this.relatedProducts = Object.values(filterRelateProduct)
+
+        const res = await axios.get('http://localhost:3000/product/img')
+        const img = res.data
+        this.relatedProducts.forEach((product) => {
+          const image = img.filter((img) => img.nameProduct === product._id)
+          product.images = image
+          console.log(image)
+        })
+        window.scrollTo(0, 0)
       } catch (error) {
         console.error(error)
       }
@@ -168,12 +225,12 @@ export default {
 </script>
 
 <style>
-.name-product-detail{
+.name-product-detail {
   font-size: 50px;
-  font-family:'Times New Roman', Times, serif0;
+  font-family: 'Times New Roman', Times, serif0;
   font-weight: 800;
   background-color: #0e4e49;
-  color:white;
+  color: white;
   border-radius: 25px;
   border: 5px solid #c4c89f;
   margin-bottom: 25px;
@@ -199,7 +256,7 @@ export default {
   padding: 50px;
   text-align: center;
 }
-.quantity-full p{
+.quantity-full p {
   margin-top: 25px;
   font-size: 30px;
 }
@@ -211,7 +268,7 @@ export default {
   padding: 5px 15px;
   cursor: pointer;
 }
-.quantity-button:hover{
+.quantity-button:hover {
   background-color: #7fe0db;
   color: black;
 }
@@ -230,22 +287,20 @@ export default {
   background-color: #0e4e49;
   color: aliceblue;
 }
-.btn-addP{
+.btn-addP {
   background-color: #0e4e49;
   color: white;
 }
-.btn-addP:hover{
-  color:black;
+.btn-addP:hover {
+  color: black;
   background-color: #01eadf;
 }
-.alert-1{
+.alert-1 {
   color: rgb(255, 255, 255);
   font-size: 15px;
-  background-color:#1f9f9f;
+  background-color: #1f9f9f;
   padding: 15px 0;
   margin-top: 15px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.668);
-
-  
 }
 </style>

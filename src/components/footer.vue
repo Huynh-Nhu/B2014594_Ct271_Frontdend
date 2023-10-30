@@ -25,11 +25,10 @@
         <p class="footer-name">THÔNG TIN BOBAMBO</p>
         <div class="inf-footer">
           <div class="inf-con">
-            <router-link to="/" class="">HOME</router-link>
-            <router-link to="/" class="">product</router-link>
-            <router-link to="/about">ABOUT</router-link>
-            <router-link to="/" class="">Connect</router-link>
-            <router-link to="/" class="">Book</router-link>
+            <router-link @click.native="scrollToTop" to="/" class="">HOME</router-link>
+            <router-link @click.native="scrollToTop" to="/products" class="">product</router-link>
+            <router-link @click.native="scrollToTop" to="/about">ABOUT</router-link>
+            <router-link @click.native="scrollToTop" to="/" class="">Connect</router-link>
           </div>
         </div>
       </div>
@@ -38,7 +37,7 @@
           <div class="accordion-item">
             <h2 class="accordion-header">
               <button
-                class="accordion-button  btn btn-outline-success footer-name-dow"
+                class="accordion-button btn btn-outline-success footer-name-dow"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseOne"
@@ -49,19 +48,16 @@
               </button>
             </h2>
             <div
-                id="collapseOne"
-                class="accordion-collapse collapse show"
-                data-bs-parent="#accordionExample"
-              >
-                <div class="accordion-body inf-footer-dow">
-                    
-                      <router-link to="/" class="">HOME</router-link>
-                      <router-link to="/" class="">product</router-link>
-                      <router-link to="/about">ABOUT</router-link>
-                      <router-link to="/" class="">Connect</router-link>
-                      <router-link to="/" class="">Book</router-link>
-                    
-                  </div>  
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body inf-footer-dow">
+                <router-link @click.native="scrollToTop" to="/" class="">HOME</router-link>
+                <router-link @click.native="scrollToTop" to="/products" class="">product</router-link>
+                <router-link @click.native="scrollToTop" to="/about">ABOUT</router-link>
+                <router-link @click.native="scrollToTop" to="/" class="">Connect</router-link>
+              </div>
             </div>
           </div>
           <div class="accordion-item">
@@ -120,134 +116,130 @@
 </template>
 <script>
 export default {
-  name: 'footerVue'
+  name: 'footerVue',
+  methods: {
+    scrollToTop() {
+      window.scrollTo(0, 0)
+    }
+  }
 }
 </script>
 
 <style>
 .row-footer {
-    display: flex;
-    background-color: #c4c89f;
-    margin: 0;
-
+  display: flex;
+  background-color: #c4c89f;
+  margin: 0;
 }
 .local-footer-left {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 
 .footer-name {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Courier New', Courier, monospace;
-    margin-bottom: 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 0;
 }
 
 .footer-name-dow {
-    background-color: #668245;
+  background-color: #668245;
 }
 
 .footer-detail {
-    font-size: 15px;
-    font-family: 'Times New Roman', Times, serif;
-    margin: 0;
-    text-align: center;
-    font-weight: 100;
+  font-size: 15px;
+  font-family: 'Times New Roman', Times, serif;
+  margin: 0;
+  text-align: center;
+  font-weight: 100;
 }
 
 .icon-con {
-    display: flex;
-    padding-left: 0;
-    justify-content: center;
-    margin-top: 0;
+  display: flex;
+  padding-left: 0;
+  justify-content: center;
+  margin-top: 0;
 }
 
 .icon-con li {
-    list-style: none;
-    font-size: 23px;
-    margin-right: 20px;
-
+  list-style: none;
+  font-size: 23px;
+  margin-right: 20px;
 }
 
 .icon-con li a {
-    color: black;
-    opacity: 0.5;
-    text-decoration: none;
-
-
-
+  color: black;
+  opacity: 0.5;
+  text-decoration: none;
 }
 
 .icon-con li:hover a {
-    color: rgb(153, 189, 172);
-    list-style: none;
-    background-color: rgb(30, 47, 41);
-    padding: 5px;
-    border-radius: 60px;
+  color: rgb(153, 189, 172);
+  list-style: none;
+  background-color: rgb(30, 47, 41);
+  padding: 5px;
+  border-radius: 60px;
 }
 
 .footer-name-1 {
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Courier New', Courier, monospace;
-    margin-bottom: 0;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 0;
 }
 
 .inf-con {
-    list-style: none;
-    display: block;
+  list-style: none;
+  display: block;
 }
 .inf-con a {
-    padding: 0;
-    display: inline-block;
-    margin-right: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #668245;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
+  padding: 0;
+  display: inline-block;
+  margin-right: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #668245;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .inf-footer-dow a {
-   display: block;
-   text-decoration: none;
-   text-transform: uppercase;
-   color: #253216;
-   text-align: center;
+  display: block;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #253216;
+  text-align: center;
 }
-
-
 
 /* footer-right */
 .local-ul li {
-    list-style: none;
+  list-style: none;
 }
 
 .local-ul li i {
-    font-size: 20px;
-    color: rgb(70, 115, 70);
-
+  font-size: 20px;
+  color: rgb(70, 115, 70);
 }
 
-@media screen and (min-width:586px) {
-    .row-dows {
-        display: none;
-    }
+@media screen and (min-width: 586px) {
+  .row-dows {
+    display: none;
+  }
 }
 
-@media screen and (max-width:586px) {
-    .row-dows {
-        display: block;
-    }
+@media screen and (max-width: 586px) {
+  .row-dows {
+    display: block;
+  }
 
-    .show-inf {
-        display: none;
-    }
+  .show-inf {
+    display: none;
+  }
 
-    .footer-right-dis {
-        display: none;
-    }
+  .footer-right-dis {
+    display: none;
+  }
 }
 </style>

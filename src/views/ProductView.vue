@@ -19,12 +19,15 @@
         </div>
       </div>
       <div class="col-md-9">
-        <button class="search-btn btn mx-3">
-                <i class="fa fa-search"></i>
-              </button>
         <h1 class="h1-name">Hiện danh sách sản phẩm</h1>
-        <div class="row d-flex">
-          <div v-for="product in products" :key="product._id" class="product col-md-4">
+        <div class="">
+          <input  class="form-control search-name" type="text" v-model="searchProduct" placeholder="Nhập tên sản phẩm để tìm kiếm"/>
+
+        </div>
+
+     
+        <div  class="row d-flex">
+          <div v-for="product in filteredProducts" :key="product._id" class="product col-md-4">
             <div class="card product-card" style="width: 100%; height: 100%">
               <router-link :to="'/products/' + product._id">
                 <img
@@ -33,8 +36,8 @@
                   :src="'/public/img/products/' + image.name"
                   class="card-img-top"
                   alt=""
-                /> </router-link
-              >
+                />
+              </router-link>
 
               <div class="card-body">
                 <h5 class="card-title name-product">{{ product.name }}</h5>
@@ -55,7 +58,9 @@ export default {
   data() {
     return {
       categories: [],
-      products: []
+      products: [],
+      searchProduct:'',
+   
     }
   },
 
@@ -63,6 +68,20 @@ export default {
     this.showAll()
     this.showCate()
   },
+  computed:{
+    filteredProducts(){
+      const search = this.searchProduct.toLowerCase().trim()
+      if(!search){
+        return  this.products
+      }
+      return this.products.filter((product)=>{
+        return product.name.toLowerCase().includes(search)
+      })
+
+    },
+
+  },
+ 
   methods: {
     async showAll() {
       try {
@@ -102,6 +121,7 @@ export default {
             this.products = Object.values(productAll)
           })
         })
+
         const response = await axios.get('http://localhost:3000/product/img')
         const images = response.data
         console.log(' img.nameProduct', response.data)
@@ -112,11 +132,12 @@ export default {
       } catch (err) {
         console.log(err)
       }
-    }
+    },
+    
   },
   components: {
     headerVue,
-    footerVue
+    footerVue,
   }
 }
 </script>
@@ -129,8 +150,12 @@ export default {
 .main {
   background-color: #2f6451;
 }
-.category {
+.search-name{
+  width: 25%;
+  margin: 10px 0;
+  justify-content: end;
 }
+
 .category ul {
   text-align: center;
   /* background-color: rgba(200, 168, 92, 0.718); */

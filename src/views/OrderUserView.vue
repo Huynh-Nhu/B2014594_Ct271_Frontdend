@@ -2,9 +2,8 @@
   <headerVue></headerVue>
 
   <main class="order-main">
-
     <div v-if="count" class="order-count">
-      <p>Tổng kho đơn hàng có:{{ orders.length }} đơn</p>
+      <p style="font-size: 25px">Tổng kho đơn hàng có:{{ orders.length }} đơn</p>
 
       <div class="container">
         <div class="row">
@@ -57,9 +56,7 @@
                 </div>
               </div>
               <div class="card-footer">
-             
-                    <p class="card-text mx-2">Ngày giao hàng: {{ order.order.dayCurrent }}</p>
-                
+                <p class="card-text mx-2">Ngày giao hàng: {{ order.order.dayCurrent }}</p>
               </div>
             </div>
           </div>
@@ -67,7 +64,7 @@
       </div>
     </div>
     <div v-if="!count" class="empty-order">
-      <p>Chưa có hóa đơn nào tồn tại</p>
+      <p style="font-size: 25px">Chưa có hóa đơn nào tồn tại</p>
       <img src="/img/png/emty.png" alt="Empty Order" />
     </div>
   </main>
@@ -95,14 +92,12 @@ export default {
   created() {
     // this.calculateOrderCount()
   },
-  
+
   mounted() {
-      
     this.fetchOrders()
   },
   methods: {
     fetchOrders() {
-    
       const userID = sessionStorage.getItem('id')
       axios
         .get('http://localhost:3000/order/show')
@@ -119,19 +114,17 @@ export default {
               }
               return 0
             })
-            const counts = this.orders.length
-            console.log(counts);
-            if(counts > 0){
-              this.count = true
-            } else{
-              this.count = false
-            }
+          const counts = this.orders.length
+          console.log(counts)
+          if (counts > 0) {
+            this.count = true
+          } else {
+            this.count = false
+          }
           // this.calculateOrderCount()
-        
         })
         .catch((error) => {
           console.error(error)
-      
         })
     },
     calculateTotalQuantity(orderDetail) {
@@ -153,15 +146,14 @@ export default {
         // console.log(detail.localUser)
         return detail.localUser
       }
-    },
-    
+    }
   }
 }
 </script>
 
 <style>
-.order-main{
-  height: 500px;
+.order-main {
+  height: auto;
 }
 .btn-seen {
   text-align: end;
@@ -188,6 +180,7 @@ export default {
   background-color: rgb(255, 255, 255);
   color: #1b1515;
 }
+
 .empty-order {
   display: flex;
   flex-direction: column;
@@ -199,6 +192,7 @@ export default {
 
 .empty-order img {
   width: 50%;
+  /* height: 500px; */
   margin-bottom: 10px;
 }
 </style>

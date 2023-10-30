@@ -2,14 +2,6 @@
   <headerAdminVue></headerAdminVue>
   <main>
     <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
-      <!-- <div class="col">
-        <div class="card">
-          <i class="ti-home icon-admin"></i>
-          <div class="card-body body-router">
-            <router-link to="/admin" class="mx-5">Home Admin</router-link>
-          </div>
-        </div>
-      </div> -->
       <div class="col">
         <div class="card">
           <i class="ti-clipboard icon-admin"></i>
@@ -43,6 +35,7 @@
           </div>
         </div>
       </div>
+      
       <div class="col">
         <div class="card">
           <i class="fa fa-plus icon-admin"></i>
@@ -51,7 +44,20 @@
           </div>
         </div>
       </div>
+
+      <div class="col">
+        <div class="card">
+          <i class="fa fa-commenting icon-admin" ></i>
+          <div class="card-body body-router">
+            <router-link to="/adminConnect" class="">Đánh Giá Của Khách</router-link>
+          </div>
+        </div>
+      </div>
+
+
     </div>
+
+    
 
     <div class="col-sm-10"></div>
   </main>
