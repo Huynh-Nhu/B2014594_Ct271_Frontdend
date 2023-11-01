@@ -192,12 +192,12 @@ export default {
 .inf-con {
   list-style: none;
   display: block;
+  text-align: center;
 }
 .inf-con a {
   padding: 0;
   display: inline-block;
   margin-right: 20px;
-  text-align: center;
   text-decoration: none;
   color: #668245;
   text-decoration: none;

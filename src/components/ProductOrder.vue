@@ -1,12 +1,12 @@
 <template>
   <div
-    class="modal fade"
+    class="modal fade "
     :id="modalId"
     tabindex="-1"
     :aria-labelledby="'exampleModalLabel' + modalId"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Thông tin sản phẩm đã đặt</h1>
@@ -25,14 +25,14 @@
                 <img
                   :src="`/public/img/products/${product.imageData}`"
                   alt=""
-                  width="100"
-                  height="100"
+                  width="150"
+                  height="150"
                 />
 
               </div>
-              <div class="col-sm-6">
-                <p>Giá: {{ product.price }}</p>
+              <div class="col-sm-6 ">
                 <p>Số Lượng Đã Đặt: {{ product.quantity }}</p>
+                <p>Đơn Giá: {{ product.price }}</p>
 
               </div>
             </div>

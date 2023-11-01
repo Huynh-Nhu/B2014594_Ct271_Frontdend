@@ -1,10 +1,76 @@
 <script>
 import headerVue from '../components/header.vue'
 import footerVue from '../components/footer.vue'
+import axios from 'axios'
 export default {
+  data() {
+    return {
+      products: []
+    }
+  },
   components: {
     headerVue,
     footerVue
+  },
+  methods: {
+    // Hàm lấy ngẫu nhiên một số từ một khoảng giá trị
+    getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    },
+    // Hàm lấy ngẫu nhiên 3 sản phẩm từ danh sách sản phẩm
+    getRandomProducts(products) {
+      const randomizedProducts = []
+      const numProducts = products.length
+
+      // Kiểm tra nếu danh sách sản phẩm ít hơn 3 thì trả về toàn bộ danh sách
+      if (numProducts <= 3) {
+        return products
+      }
+
+      // Lấy ngẫu nhiên 3 chỉ số sản phẩm trong danh sách
+      const randomIndexes = new Set()
+      while (randomIndexes.size < 3) {
+        randomIndexes.add(this.getRandomNumber(0, numProducts - 1))
+      }
+
+      // Lấy sản phẩm tương ứng với các chỉ số ngẫu nhiên
+      randomIndexes.forEach((index) => {
+        randomizedProducts.push(products[index])
+      })
+
+      return randomizedProducts
+    },
+    // Phương thức hiển thị danh sách sản phẩm
+    async showAll() {
+      try {
+        // Lấy danh sách sản phẩm từ API
+        const productsResponse = await axios.get('http://localhost:3000/product/home')
+        const allProducts = productsResponse.data
+
+        // Lấy ngẫu nhiên 3 sản phẩm từ danh sách sản phẩm
+        const randomProducts = this.getRandomProducts(allProducts)
+
+        // Gán danh sách sản phẩm ngẫu nhiên vào biến products
+        this.products = randomProducts
+
+        // Lấy danh sách ảnh sản phẩm từ API
+        const imagesResponse = await axios.get('http://localhost:3000/product/img')
+        const images = imagesResponse.data
+
+        // Gán danh sách ảnh sản phẩm cho từng sản phẩm
+        this.products.forEach((product) => {
+          const productImages = images.filter((img) => img.nameProduct === product._id)
+          product.images = productImages
+        })
+
+        console.log(this.products)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  mounted() {
+    this.showAll()
   }
 }
 </script>
@@ -39,13 +105,28 @@ export default {
           </div>
           <div class="carousel-inner carousel-top">
             <div class="carousel-item active">
-              <img src="public/img/carousel/open.png" class="d-block" alt="..." style="width: 100%; height: 100%" />
+              <img
+                src="public/img/carousel/open.png"
+                class="d-block"
+                alt="..."
+                style="width: 100%; height: 100%"
+              />
             </div>
             <div class="carousel-item">
-              <img src="public/img/carousel/Bobambo-1.png" class="d-block" alt="..." style="width: 100%; height: 100%" />
+              <img
+                src="public/img/carousel/Bobambo-1.png"
+                class="d-block"
+                alt="..."
+                style="width: 100%; height: 100%"
+              />
             </div>
             <div class="carousel-item">
-              <img src="public/img/carousel/Bobambo-2.png" class="d-block" alt="..." style="width: 100%; height: 100%"  />
+              <img
+                src="public/img/carousel/Bobambo-2.png"
+                class="d-block"
+                alt="..."
+                style="width: 100%; height: 100%"
+              />
             </div>
           </div>
           <button
@@ -74,7 +155,7 @@ export default {
     <div class="container">
       <div class="row d-flex product-1">
         <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-4 img_p1">
-          <img src="public/img/product/Demo.png" alt="" style="width: 100%; " />
+          <img src="public/img/product/Demo.png" alt="" style="width: 100%" />
         </div>
         <div class="col-md-6 col-xl-8 col-lg-6 col-xxl-8 text_p1">
           <p class="text_main1">
@@ -89,7 +170,7 @@ export default {
     <div class="container">
       <div class="row d-flex">
         <div class="col-sm-0 col-md-4 -col-lg-4">
-          <img src="public/img/product/Tra-Xanh-Dao.png" alt="" style="width: 100%; " />
+          <img src="public/img/product/Tra-Xanh-Dao.png" alt="" style="width: 100%" />
         </div>
         <div class="col-sm-12 col-md-4 -col-lg-4 mt-5 text_p2">
           <p>
@@ -108,7 +189,7 @@ export default {
         </div>
 
         <div class="col-sm-0 col-md-4 -col-lg-4">
-          <img src="public/img/product/TRA-NHO.png" alt="" style="width: 100%; " />
+          <img src="public/img/product/TRA-NHO.png" alt="" style="width: 100%" />
         </div>
       </div>
     </div>
@@ -125,18 +206,14 @@ export default {
           </p>
         </div>
         <div class="col-md-4 col-xl-4 col-xxl-4 img_p3">
-          <img src="public/img/product/sua_tuoi.png" style="width: 100%; " alt="" />
+          <img src="public/img/product/sua_tuoi.png" style="width: 100%" alt="" />
         </div>
       </div>
     </div>
     <div class="container">
       <div class="row flex mt-4">
         <div class="col-md-4 col-xl-4 col-xxl-4 img_p4">
-          <img
-            src="public/img/product/dau-socola-da-xay.png"
-            style="width: 100%; "
-            alt=""
-          />
+          <img src="public/img/product/dau-socola-da-xay.png" style="width: 100%" alt="" />
         </div>
         <!-- <div class="col-2"></div> -->
         <div class="col-md-8 col-xl-8 col-xxl-8">
@@ -151,37 +228,22 @@ export default {
       </div>
     </div>
 
-    <p class="local-name">best seller product</p>
+    <p class="local-name">Gợi Ý Một Vài Sản Phẩm</p>
     <div class="container">
-      <div class="row d-flex">
-        <div class="col-md-4 col-xl-4 col-xxl-4">
-          <div class="row d-block product-seller">
-            <img
-              src="public/img/product/MINT-DA-XAY.png"
-              style="width: 100%; height: 100%"
-              alt=""
-            />
-            <p class="name-product-seller">Mint Đá Xay</p>
-          </div>
-        </div>
-        <div class="col-md-4 col-xl-4 col-xxl-4">
-          <div class="row d-block product-seller">
-            <img
-              src="public/img/product/Matcha-da-xay-2.png"
-              style="width: 100%; height: 100%"
-              alt=""
-            />
-            <p class="name-product-seller">Matcha Đá Xay</p>
-          </div>
-        </div>
-        <div class="col-md-4 col-xl-4 col-xxl-4">
-          <div class="row d-block product-seller">
-            <img
-              src="public/img/product/Okinawa-Oreo-Cream-Milk-Tea.png"
-              style="width: 100%; height: 100%"
-              alt=""
-            />
-            <p class="name-product-seller">Okinawa Oreo Cream Milk Tea</p>
+      <div class="row">
+        <div class="col" v-for="product in products" :key="product._id">
+          <div class="row product-seller">
+            <router-link :to="'/products/' + product._id">
+              <img
+                v-for="image in product.images"
+                :key="image._id"
+                :src="'/public/img/products/' + image.name"
+                style="width: 100%; height: 100%"
+                alt=""
+              />
+
+            </router-link>
+            <p class="name-product-seller">{{ product.name }}</p>
           </div>
         </div>
       </div>
@@ -194,20 +256,40 @@ export default {
         <div class="col-md-6 local-home">
           <div class="row d-block">
             <div class="col-md-12 mb-4">
-              <img class="img-1" src="public/img/local/DD1.jpg" style="width: 100%; height: 100%" alt="">
+              <img
+                class="img-1"
+                src="public/img/local/DD1.jpg"
+                style="width: 100%; height: 100%"
+                alt=""
+              />
             </div>
             <div class="col-md-12">
-              <img class="img-2" src="public/img/local/DD2.jpg" style="width: 100%; height: 100%" alt="">
+              <img
+                class="img-2"
+                src="public/img/local/DD2.jpg"
+                style="width: 100%; height: 100%"
+                alt=""
+              />
             </div>
           </div>
         </div>
         <div class="col-md-6 local-home">
           <div class="row d-block">
             <div class="col-md-12 mb-4">
-              <img class="img-3" src="public/img/local/DD-3.jpg" style="width: 100%; height: 100%" alt="">
+              <img
+                class="img-3"
+                src="public/img/local/DD-3.jpg"
+                style="width: 100%; height: 100%"
+                alt=""
+              />
             </div>
             <div class="col-md-12">
-              <img class="img-4" src="public/img/local/DD4.jpg" style="width: 100%; height: 100%" alt="">
+              <img
+                class="img-4"
+                src="public/img/local/DD4.jpg"
+                style="width: 100%; height: 100%"
+                alt=""
+              />
             </div>
           </div>
         </div>
@@ -234,7 +316,6 @@ export default {
   height: auto;
 }
 /* carousel */
-
 
 /* local */
 .local-name {
@@ -309,7 +390,6 @@ export default {
   .img_p3 {
     margin-top: -50px;
     width: 100%;
-    
   }
   .text_p3 {
     margin-top: 25px;
@@ -340,14 +420,14 @@ export default {
 .product-seller img:hover {
   margin: -15px;
 }
-.local-home img{
+.local-home img {
   border-radius: 25px;
   margin-bottom: 25px;
 }
-.local-home img:hover{
-  content: "shadyu";
+.local-home img:hover {
+  content: 'shadyu';
   /* position: absolute; */
-  
+
   background: #000;
   padding: 5px;
 }
