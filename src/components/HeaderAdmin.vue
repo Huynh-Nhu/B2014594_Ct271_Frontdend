@@ -6,10 +6,62 @@
 
     <div class="row d-flex">
       <div class="col-sm-4 d-flex inf-admin" style="text-align: start">
-        <router-link to="/admin" class="mx-5"><i class="ti-home router-home"></i></router-link>
+        <button
+          class="btn"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasScrolling"
+          aria-controls="offcanvasScrolling"
+        >
+          <!-- <router-link to="/admin" class="mx-5"><i class="ti-home router-home"></i></router-link> -->
+          <i class="ti-home router-home"></i>
+        </button>
+
+        <div
+          class="offcanvas offcanvas-start"
+          data-bs-scroll="true"
+          data-bs-backdrop="false"
+          tabindex="-1"
+          id="offcanvasScrolling"
+          aria-labelledby="offcanvasScrollingLabel"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">BOBAMBU</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="row"></div>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <router-link to="/caterogy" class="">Thêm loại sản Phẩm</router-link>
+              </li>
+              <li class="list-group-item">
+                <router-link to="/listuser" class="">Quản Lý User</router-link>
+              </li>
+              <li class="list-group-item">
+                <router-link to="/listCate" class="">Quản Lý Sản Phẩm</router-link>
+              </li>
+              <li class="list-group-item">
+                <router-link to="/listOrder" class="">Quản Lý Đơn Hàng</router-link>
+              </li>
+              <li class="list-group-item">
+                <router-link to="/registerAdmin" class="">Thêm Admin</router-link>
+              </li>
+              <li class="list-group-item">
+                <router-link to="/adminConnect" class="">Đánh Giá Của Khách</router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="col-sm-4 d-flex inf-admin" style="justify-content: center;">
-        <p class="mx-3" v-if="loginOn"><i class="ti-user "></i> {{ name }}</p>
+
+      <div class="col-sm-4 d-flex inf-admin" style="justify-content: center">
+        <p class="mx-3" v-if="loginOn"><i class="ti-user"></i> {{ name }}</p>
         <p v-if="loginOn"><i class="fa fa-mobile"></i> {{ phone }}</p>
       </div>
       <div class="col-sm-4 logout-admin" style="text-align: end">
@@ -66,10 +118,8 @@ export default {
   color: black;
   font-size: 30px;
 }
-.inf-admin a i{
+.inf-admin a i {
   color: black;
   font-size: 30px;
-
 }
-
 </style>

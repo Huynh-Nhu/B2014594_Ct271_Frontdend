@@ -45,7 +45,7 @@ export default {
       try {
         // Lấy danh sách sản phẩm từ API
         const productsResponse = await axios.get('http://localhost:3000/product/home')
-        const allProducts = productsResponse.data
+        const allProducts = productsResponse.data.filter((product) => product.status == true)
 
         // Lấy ngẫu nhiên 3 sản phẩm từ danh sách sản phẩm
         const randomProducts = this.getRandomProducts(allProducts)

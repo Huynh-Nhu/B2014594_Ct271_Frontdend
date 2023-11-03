@@ -7,6 +7,9 @@
       ><i class="fa fa-arrow-left" aria-hidden="true"></i
     ></router-link>
   </div>
+  <div class="text-center next-add mb-5">
+    <RouterLink :to="'/listCate/' + this.categoryId + '/products'">Thêm sản phẩm</RouterLink>
+  </div>
 
   <table class="table text-center">
     <thead>
@@ -40,24 +43,30 @@
         <td>{{ product.sizeS }}</td>
         <td>{{ product.sizeM }}</td>
         <td>{{ product.details }}</td>
-        <td>
-          <button class="btn-edit btn">
-            <router-link :to="'/editProduct/' + product._id">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </router-link>
-          </button>
-        </td>
-        <td>
-          <button class="btn-edit btn" @click="deleteProduct(product._id)">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </button>
-        </td>
+      
+          <td  v-if="product.status == true " >
+            <button class="btn-edit btn">
+              <router-link :to="'/editProduct/' + product._id">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </router-link>
+            </button>
+          </td>
+          <td  v-if="product.status == true " >
+            <button class="btn-edit btn" @click="deleteProduct(product._id)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </td>
+          <td colspan="6"  v-else >
+            <p>Sản phẩm không tồn tại </p>
+
+          </td>
+       
+      
+          
       </tr>
     </tbody>
   </table>
-  <div class="text-center next-add mt-5">
-    <RouterLink :to="'/listCate/' + this.categoryId + '/products'">Thêm sản phẩm</RouterLink>
-  </div>
+ 
 </template>
 
 <script>

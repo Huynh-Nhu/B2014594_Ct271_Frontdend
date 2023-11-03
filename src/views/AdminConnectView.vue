@@ -71,6 +71,7 @@ export default {
   },
   created() {
     this.getAllConnect()
+    this.getOrder5s()
   },
   methods: {
     async getAllConnect() {
@@ -88,6 +89,13 @@ export default {
         this.getAllConnect()
         this.groupByConnect()
       })
+    },
+    async getOrder5s() {
+      while (true) {
+        await   this.getAllConnect()
+        await this.groupByConnect()
+        await new Promise((resolve) => setTimeout(resolve, 5000)) // Chờ 5 giây trước khi gọi lại fetchOrders
+      }
     },
     async groupByConnect() {
       const groupedConnect = {}

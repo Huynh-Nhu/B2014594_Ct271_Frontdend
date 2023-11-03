@@ -164,7 +164,7 @@ export default {
 }
 
 .order-card:hover {
-  margin: -20px;
+  margin: -5px;
 }
 .card-text:hover {
   color: rgb(0, 0, 0);

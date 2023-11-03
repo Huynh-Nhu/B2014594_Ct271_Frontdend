@@ -82,9 +82,37 @@
           </div>
         </div>
       </div>
-      <!-- <div v-else>
-        <img src="https://www.adasglobal.com/img/empty-cart.png" alt="" />
-      </div> -->
+    </div>
+            
+    
+    
+  
+    <div class="modal" id="modal-success" tabindex="-1">
+      <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+          
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body pb-5">
+            <div class="text-center">
+              <img src="/img/png/success.png" alt="" width="100" height="100" />
+              <h3>Bạn đã đặt hàng thành công</h3>
+            </div>
+            <div class="btn-success">
+              <router-link @click="hideModal()" to="/products" class="">Tiếp tục mua sản phẩm</router-link>
+
+              <router-link @click="hideModal()" to="/orderUser"> Đi đến xem đơn hàng </router-link>
+            </div>
+          </div>
+         
+        </div>
+      </div>
     </div>
   </main>
 
@@ -125,13 +153,13 @@ export default {
       const idUser = sessionStorage.getItem('id')
       const cartUser = []
       axios.get('http://localhost:3000/cart/show').then((response) => {
-        response.data.map((carts) => {
-          if (carts.idUser === idUser) {
-            console.log(idUser)
+        response.data.forEach((carts) => {
+          if (carts.idUser === idUser && carts.status === true) {
             // cartUser[carts._id] = carts
             cartUser.push(carts)
           }
           this.carts = cartUser
+
           this.length = this.carts.length
           console.log(this.length)
         })
@@ -146,37 +174,45 @@ export default {
       }
     },
     async placeOrder() {
-      if (!this.isAddLocal) {
-        alert('Vui lòng nập địa chỉ trước khi đặt hàng')
+      if (this.length == 0) {
+        alert('Vui lòng chọn sản phẩm để có thể đặt hàng')
+
         return
       } else {
-        const idUser = sessionStorage.getItem('id')
-        const dayOrder = moment().format('DD-MM-YYYY HH:mm:ss')
+        if (!this.isAddLocal) {
+          alert('Vui lòng nhập địa chỉ trước khi đặt hàng')
+        } else {
+          const idUser = sessionStorage.getItem('id')
+          const dayOrder = moment().format('DD-MM-YYYY HH:mm:ss')
 
-        const status = 'Pending'
-        const orderDetails = this.carts.map((cart) => ({
-          idProduct: cart.idProduct,
-          quantityProduct: cart.quantity,
-          priceAll: (cart.priceSize * cart.quantity).toLocaleString('vi-VN', {
-            minimumFractionDigits: 3
-          }),
-          localUser: this.localUser,
-          note: cart.note
-        }))
-        console.log(orderDetails.idProduct)
-        console.log(orderDetails)
-        const orderData = { idUser, dayOrder, status, orderDetails }
-        console.log('orderData', orderData)
-        try {
-          await axios.post('http://localhost:3000/order/', orderData).then((response) => {
-            console.log(this.carts)
-          })
-          this.clear()
-          this.carts = []
-          this.length = this.carts.length
-          // this.$router.push('/cart')
-        } catch (err) {
-          console.log(err)
+          const status = 'Pending'
+          const orderDetails = this.carts.map((cart) => ({
+            idProduct: cart.idProduct,
+            quantityProduct: cart.quantity,
+            priceAll: (cart.priceSize * cart.quantity).toLocaleString('vi-VN', {
+              minimumFractionDigits: 3
+            }),
+            localUser: this.localUser,
+            note: cart.note
+          }))
+          console.log(orderDetails.idProduct)
+          console.log(orderDetails)
+          const orderData = { idUser, dayOrder, status, orderDetails }
+          console.log('orderData', orderData)
+          try {
+            await axios.post('http://localhost:3000/order/', orderData).then((response) => {
+              console.log(this.carts)
+
+              $('#modal-success').modal('show')
+            })
+            this.clear()
+            this.carts = []
+            this.localUser = ''
+            this.length = this.carts.length
+            // this.$router.push('/cart')
+          } catch (err) {
+            console.log(err)
+          }
         }
       }
     },
@@ -220,6 +256,9 @@ export default {
       const cartId = this.carts.map((cart) => cart._id)
       console.log(cartId)
       axios.delete(`http://localhost:3000/cart/${userId}`).then((response) => {})
+    },
+    hideModal() {
+      $('#modal-success').modal('hide')
     }
   }
 }
@@ -294,5 +333,24 @@ export default {
   color: #ffffff;
   background-color: #10cc87;
   border: #fff9f9 solid 2px;
+}
+.btn-success{
+  text-align: center;
+  margin-top: 25px;
+
+}
+.btn-success a{
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+  margin-right: 25px;
+  outline-style: dashed;
+  padding: 5px;
+  border-radius: 25px;
+}
+.btn-success a:hover{
+  background-color: #7ba696;
+  color: rgb(29, 54, 7);
+
 }
 </style>

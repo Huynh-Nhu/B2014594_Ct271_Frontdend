@@ -131,7 +131,7 @@ export default {
         const relatedProduct = relate.data
         const filterRelateProduct = relatedProduct.filter(
           (product) => product.category === this.product.category && product._id !== productId
-        )
+        && product.status == true)
         console.log(filterRelateProduct)
         this.relatedProducts = Object.values(filterRelateProduct)
 

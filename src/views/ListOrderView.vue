@@ -2,9 +2,10 @@
   <headerAdminVue></headerAdminVue>
 
   <div class="text-center">
-
-
     <table class="table table-bordered">
+      <div v-if="showMessage" class="alert text-center" role="alert">
+        {{ message }}
+      </div>
       <thead class="table-dark">
         <tr>
           <th scope="col">Tên khách hàng</th>
@@ -28,6 +29,7 @@
               <thead class="table-secondary">
                 <tr>
                   <th>Tên sản phẩm</th>
+                  <th>Size</th>
                   <th>Số Lượng</th>
                   <th>Giá</th>
                 </tr>
@@ -35,6 +37,9 @@
               <tbody>
                 <tr v-for="detail in order.orderDetail" :key="detail._id">
                   <td>{{ detail.product.name }}</td>
+                  <td>
+                   {{ sizeProduct(order.orderDetail) }}
+                  </td>
                   <td>{{ detail.quantityProduct }}</td>
                   <td>{{ detail.priceAll }}</td>
                 </tr>
@@ -47,12 +52,19 @@
           <td>{{ getOrderAddress(order.orderDetail) }}</td>
           <td>{{ getOrderNote(order.orderDetail) }}</td>
           <td>{{ order.order.status }}</td>
-          <td v-if="order.order.status === 'Đã giao'">{{order.order.dayCurrent }}</td>
+          <td v-if="order.order.status === 'Đã giao'">{{ order.order.dayCurrent }}</td>
           <td v-else>Chưa xác nhận</td>
           <td>
-            <button class="btn btn-dark" @click="updateOrderStatus(order.order._id, 'Đã giao')">
+            <button
+              v-if="order.order.status !== 'Đã giao'"
+              class="btn btn-dark"
+              @click="updateOrderStatus(order.order._id, 'Đã giao')"
+            >
               Xác Nhận Đơn
             </button>
+            <div v-else class="">
+              <p>Đơn đã xác nhận</p>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -70,43 +82,50 @@ export default {
   data() {
     return {
       orders: [],
-      currentDate: ''
+      currentDate: '',
+      message: '',
+      showMessage: false
     }
   },
   components: {
     headerAdminVue
   },
-  mounted() {
+  created() {
     this.fetchOrders()
+    this.getOrder5s()
   },
 
   methods: {
-   async fetchOrders() {
-    try{
-      await axios
-         .get('http://localhost:3000/order/show')
-         .then((response) => {
-           this.orders = response.data
-             .filter((order) => order.order && order.order.dayOrder)
-             .sort((a, b) => {
-               //sắp hóa đơn có ngày giảm dần
-               if (a.order.dayOrder > b.order.dayOrder) {
-                 return -1
-               } else if (a.order.dayOrder < b.order.dayOrder) {
-                 return 1
-               }
-               return 0
-             })
-             this.fetchOrders()
+    async fetchOrders() {
+      try {
+        await axios
+          .get('http://localhost:3000/order/show')
+          .then((response) => {
+            this.orders = response.data
+              .filter((order) => order.order && order.order.dayOrder)
+              .sort((a, b) => {
+                //sắp hóa đơn có ngày giảm dần
+                if (a.order.dayOrder > b.order.dayOrder) {
+                  return -1
+                } else if (a.order.dayOrder < b.order.dayOrder) {
+                  return 1
+                }
+                return 0
+              })
+            console.log(this.orders)
           })
           .catch((error) => {
             console.error(error)
           })
-         
-
-    } catch(err){
-      console.log(err);
-    }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getOrder5s() {
+      while (true) {
+        await this.fetchOrders()
+        await new Promise((resolve) => setTimeout(resolve, 5000)) // Chờ 5 giây trước khi gọi lại fetchOrders
+      }
     },
     calculateTotalQuantity(orderDetail) {
       let totalQuantity = 0
@@ -115,6 +134,20 @@ export default {
       }
       return totalQuantity
     },
+    sizeProduct(orderDetail) {
+      let size = null
+      for (const detail of orderDetail) {
+        const price = parseInt(detail.priceAll.replace(/,/g, ' '), 10)
+        const quantity = parseInt(detail.quantityProduct)
+        if (price / quantity ===  parseInt(detail.product.sizeS)) {
+          size = 'S'
+        } else {
+          size = 'M'
+        }
+      }
+      return size
+    },
+
     calculateTotalPrice(orderDetail) {
       let totalPrice = 0
       for (const detail of orderDetail) {
@@ -141,12 +174,16 @@ export default {
           dayCurrent: dayCurrent
         })
         const updateOrder = response.data.order
+        this.message = 'Cập nhật sau 5 s'
+        this.showMessage = true
+        setTimeout(() => {
+          this.showMessage = false
+        }, 500)
         const orderIndex = this.orders.findIndex((order) => order.order._id === updateOrder._id)
         if (orderIndex !== -1) {
           this.orders[orderIndex].order.status = updateOrder.status
           this.orders[orderIndex].currentDate = updateOrder.dayCurrent
         }
-        this.fetchOrders()
       } catch (err) {
         console.log(err)
       }

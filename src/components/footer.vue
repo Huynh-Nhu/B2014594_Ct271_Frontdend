@@ -11,7 +11,8 @@
         <div class="icon-bobam">
           <ul class="icon-con">
             <li>
-              <a href=""><i class="ti-facebook face-icon"></i></a>
+              <a href="">
+                <i class="ti-facebook face-icon"></i></a>
             </li>
             <li>
               <a href=""><i class="ti-instagram ig-icon"></i></a>
@@ -170,14 +171,14 @@ export default {
 
 .icon-con li a {
   color: black;
-  opacity: 0.5;
+  /* opacity: 0.5; */
   text-decoration: none;
 }
 
 .icon-con li:hover a {
-  color: rgb(153, 189, 172);
+  color: rgb(42, 234, 231);
   list-style: none;
-  background-color: rgb(30, 47, 41);
+  background-color: rgb(0, 0, 0);
   padding: 5px;
   border-radius: 60px;
 }
@@ -199,7 +200,9 @@ export default {
   display: inline-block;
   margin-right: 20px;
   text-decoration: none;
-  color: #668245;
+  color: rgb(253, 255, 255);
+  outline-style:dashed;
+  padding: 10px;
   text-decoration: none;
   text-transform: uppercase;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;

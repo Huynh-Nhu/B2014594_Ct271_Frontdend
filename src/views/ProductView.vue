@@ -27,9 +27,9 @@
 
      
         <div  class="row d-flex">
-          <div v-for="product in filteredProducts" :key="product._id" class="product col-md-4">
+          <div  v-for="product in filteredProducts" :key="product._id" class="product col-md-4">
             <div class="card product-card" style="width: 100%; height: 100%">
-              <router-link :to="'/products/' + product._id">
+              <router-link  :to="'/products/' + product._id">
                 <img
                   v-for="image in product.images"
                   :key="image._id"
@@ -86,7 +86,8 @@ export default {
     async showAll() {
       try {
         await axios.get('http://localhost:3000/product/home').then((response) => {
-          this.products = response.data
+          this.products = response.data.filter((product) => product.status === true);
+          
         })
         if (this.products.length > 0) {
           const response = await axios.get('http://localhost:3000/product/img')
@@ -114,7 +115,7 @@ export default {
         await axios.get('http://localhost:3000/product/home').then((response) => {
           response.data.map((product) => {
             // console.log('product category ', product.category)
-            if (product.category === categoryId) {
+            if (product.category === categoryId && product.status === true) {
               productAll[product._id] = product
             }
             console.log('productAll', productAll)
