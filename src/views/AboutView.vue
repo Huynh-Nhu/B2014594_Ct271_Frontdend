@@ -31,10 +31,10 @@ import footerVue from '../components/footer.vue'
           class="scrollspy-example"
           tabindex="0"
         >
-          <h4 id="simple-list-item-1">About us</h4>
+          <h2 class="text-about" id="simple-list-item-1">About us</h2>
           <div class="row about-top">
             <div class="col-sm-6 col-md-6 col-lg-5 img-about-one">
-              <img src="public/img/about/about-1.jpg" style="w5dth: 100%" class=" " alt="" />
+              <img src="public/img/about/about-1.jpg" style="width: 100%" class=" " alt="" />
             </div>
             <div class="col-sm-6 col-md-6 col-lg-7 text-about-us">
               <p class="text-about-one">
@@ -66,7 +66,7 @@ import footerVue from '../components/footer.vue'
             </div>
           </div>
 
-          <h4 id="simple-list-item-2">Service</h4>
+          <h2 class="text-about" id="simple-list-item-2">Service</h2>
           <div class="row">
             <div class="col-sm-5 col-md-6">
               <p>
@@ -90,7 +90,7 @@ import footerVue from '../components/footer.vue'
               </div>
             </div>
           </div>
-          <h4 id="simple-list-item-3">OUR CORE VALUE</h4>
+          <h4 class="text-about" id="simple-list-item-3">OUR CORE VALUE</h4>
           <div class="row d-flex">
             <div class="col-sm-4">
               <div class="row img-about-2">
@@ -151,7 +151,12 @@ import footerVue from '../components/footer.vue'
 .about-nav {
   background-color: #253216;
 }
-
+.text-about{
+  text-align: center;
+  background-color:#95a783;
+  color: #ffffff;
+  margin-top: 25px;
+}
 .about-nav a {
   padding: 0px;
   text-transform: uppercase;

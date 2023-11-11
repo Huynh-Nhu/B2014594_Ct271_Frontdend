@@ -3,7 +3,7 @@
   <hr>
   <main class="mt-3">
     <div v-for="(group, index) in groupedConnect" :key="index">
-      <table class="table  table-bordered">
+      <table class="table  table-bordered  align-middle">
         <thead class="text-center table-dark">
           <tr>
             <th colspan="6" class="table-date">{{ formatDate(group.date) }}</th>
@@ -11,8 +11,8 @@
           </tr>
   
         </thead>
-        <thead class="table-secondary">
-          <tr>
+        <thead class="table-secondary text-center">
+          <tr class="text-center">
             <th>STT</th>
             <th scope="col" >Tên khách hàng</th>
             <th scope="col" >Số điện thoại</th>
@@ -21,7 +21,7 @@
             <th scope="col" >Ngày comment</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
             
           <tr v-for="(userConnect,index) in group.connects" :key="userConnect._id">
             <td>{{ index+1 }}</td>
