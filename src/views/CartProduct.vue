@@ -84,9 +84,6 @@
       </div>
     </div>
             
-    
-    
-  
     <div class="modal" id="modal-success" tabindex="-1">
       <div class="modal-dialog  modal-dialog-centered">
         <div class="modal-content">
@@ -277,7 +274,7 @@ export default {
   padding: 30px;
   border-radius: 25px;
   margin: 25px;
-  background: url('public/img/png/ve-dep-cua-doi-che-o-phu-tho-duoc-giai-anh-quoc-te-gioi-thieu-1544156909.png')
+  background: url('public/img/png/dat.png')
     top center / cover no-repeat;
 }
 .cart-detail {

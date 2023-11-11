@@ -13,8 +13,6 @@
     <div class="row  form-update">
       <div class="form-content-update col-md-6 offset-md-3">
         <p class="name-edit-pr">Cập nhật thông tin của sản phẩm
-          <br>
-          <p class="name-update"> {{ products.name }}</p>
         </p> 
           
         <div class="col-md-6 offset-md-3 ">
@@ -68,10 +66,29 @@
             </div>
           </form>
         </div>
-
       </div>
     </div>
   </div>
+
+  <div class="modal" id="edit-success" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body my-5">
+          <h5 class="text-center">Cập nhật sản phẩm thành công</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </template>
 <script>
 import headerAdminVue from '../components/HeaderAdmin.vue'
@@ -115,7 +132,10 @@ export default {
             .put(`http://localhost:3000/product/${this.productId}/edit`, this.products)
             .then((response) => {
               this.products = response.data
-              console.log(response)
+              $('#edit-success').modal('show')
+              setTimeout(() => {
+                $('#edit-success').modal('hide')
+              }, 1000)
               this.fetchGetProduct()
             })
             .catch((error) => {
@@ -132,8 +152,7 @@ export default {
               .put(`http://localhost:3000/product/${this.productId}/upimg`, formDataImage)
               .then((response) => {
                 this.file = response.data
-                console.log(this.file)
-                console.log(response.data)
+             
               })
               .catch((err) => {
                 console.log(err)

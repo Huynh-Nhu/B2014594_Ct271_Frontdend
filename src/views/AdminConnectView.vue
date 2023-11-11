@@ -85,9 +85,7 @@ export default {
           }
           return 0
         })
-        console.log(response.data)
-        this.getAllConnect()
-        this.groupByConnect()
+        
       })
     },
     async getOrder5s() {

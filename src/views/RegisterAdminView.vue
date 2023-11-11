@@ -73,6 +73,7 @@ export default {
         .then((response) => {
           // Xử lý kết quả đăng ký thành công
           console.log(response.data) // In ra thông báo thành công hoặc thông tin người dùng đã đăng ký
+          alert('Thêm thành công admin mới')
         })
         .catch((error) => {
           // Xử lý lỗi đăng ký

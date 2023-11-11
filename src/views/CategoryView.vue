@@ -9,11 +9,11 @@
 
           <form @submit.prevent="createCategory">
             <div>
-              <label style="color: aliceblue;" for="name">Name:</label>
-              <input class="form-control" type="text" id="name" v-model="name" />
+              <label style="color: rgb(0, 0, 0);" for="name">Name:</label>
+              <input class="form-control" type="text" id="name" v-model="name" required />
               <div class="mt-3">
-                <label style="color: aliceblue;" for="image">Hình ảnh:</label>
-                <input class="form-control" type="file" ref="fileInput" id="file" @change="handleFile" accept="*" />
+                <label style="color: rgb(0, 0, 0);" for="image">Hình ảnh:</label>
+                <input class="form-control" type="file" ref="fileInput" id="file" @change="handleFile" accept="*" required />
                 <img v-if="newImage" :src="newImage" alt="" width="250" height="250" />
               </div>
               <!-- <div v-if="nameExists" class="error-message">Tên loại đã tồn tại.</div> -->
@@ -23,7 +23,7 @@
                 {{ message }}
               </div>
               <div class="button">
-                <button class="btn btn-cate" type="submit">Create Category</button>
+                <button class="btn btn-cate" type="submit">Thêm</button>
               </div>
             </div>
           </form>
@@ -88,21 +88,21 @@ export default {
 <style>
 .text-name-admin {
   background-color: black;
-  color: aliceblue;
+  color: rgb(0, 0, 0);
   text-align: center;
-
   border-top: 5px solid rgba(185, 160, 97, 0.853);
   border-bottom: 5px solid rgba(185, 160, 97, 0.853);
 }
 .cate-full {
-  background-color: black;
-  /* padding: 10px; */
+  /* background-color: black; */
+  background: url('/img/png/cate.jpg') center center ;
+
   padding: 25px 0;
   margin: 60px;
   border-radius: 25px;
 }
 .form-add-cate {
-  background-color: rgba(191, 172, 123, 0.853);
+  background-color: rgb(255, 255, 255);
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.875);
   padding: 100px 50px;
   margin-top: 50px;
@@ -111,9 +111,12 @@ export default {
   border-radius: 25px;
 }
 .alert-cate {
-  text-align: center;
-  color: aliceblue;
   margin-top: 5px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  margin-top: 5px;
+  background-color: black;
+  padding:15px;
 }
 .button {
   text-align: center;
@@ -122,7 +125,7 @@ export default {
   background-color: rgb(117, 230, 226);
 }
 .btn-cate {
-  background-color: aliceblue;
+  background-color: rgb(212, 235, 255);
   margin-top: 15px;
 }
 </style>

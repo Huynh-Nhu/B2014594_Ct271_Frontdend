@@ -14,7 +14,7 @@
           aria-controls="offcanvasScrolling"
         >
           <!-- <router-link to="/admin" class="mx-5"><i class="ti-home router-home"></i></router-link> -->
-          <i class="ti-home router-home"></i>
+          <i style="font-size: 30px;" class="ti-home router-home"></i>
         </button>
 
         <div
@@ -35,27 +35,33 @@
             ></button>
           </div>
           <div class="offcanvas-body">
-            <div class="row"></div>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <router-link to="/caterogy" class="">Thêm loại sản Phẩm</router-link>
-              </li>
-              <li class="list-group-item">
-                <router-link to="/listuser" class="">Quản Lý User</router-link>
-              </li>
-              <li class="list-group-item">
-                <router-link to="/listCate" class="">Quản Lý Sản Phẩm</router-link>
-              </li>
-              <li class="list-group-item">
-                <router-link to="/listOrder" class="">Quản Lý Đơn Hàng</router-link>
-              </li>
-              <li class="list-group-item">
-                <router-link to="/registerAdmin" class="">Thêm Admin</router-link>
-              </li>
-              <li class="list-group-item">
-                <router-link to="/adminConnect" class="">Đánh Giá Của Khách</router-link>
-              </li>
-            </ul>
+            <div class="row">
+              <ul class="list-group menu_admin">
+                <li class="list-group-item">
+                  <router-link to="/admin" class="">Home</router-link>
+                </li>
+
+                <li class="list-group-item">
+                  <router-link to="/listuser" class="">Quản Lý User</router-link>
+                </li>
+                <li class="list-group-item">
+                  <router-link to="/caterogy" class="">Thêm loại sản Phẩm</router-link>
+                </li>
+
+                <li class="list-group-item">
+                  <router-link to="/listCate" class="">Quản Lý Sản Phẩm</router-link>
+                </li>
+                <li class="list-group-item">
+                  <router-link to="/listOrder" class="">Quản Lý Đơn Hàng</router-link>
+                </li>
+                <li class="list-group-item">
+                  <router-link to="/registerAdmin" class="">Thêm Admin</router-link>
+                </li>
+                <li class="list-group-item">
+                  <router-link to="/adminConnect" class="">Đánh Giá Của Khách</router-link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -106,6 +112,17 @@ export default {
 <style>
 .page-admin {
   background-color: rgba(185, 160, 97, 0.853);
+}
+.menu_admin li {
+  text-align: center;
+}
+.menu_admin li a {
+  color: black;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.menu_admin li a:hover {
+  color: rgb(0, 255, 187);
 }
 .text-page {
   font-size: 50px;

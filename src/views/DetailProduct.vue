@@ -226,7 +226,7 @@ export default {
 
 <style>
 .name-product-detail {
-  font-size: 50px;
+  font-size: 45px;
   font-family: 'Times New Roman', Times, serif0;
   font-weight: 800;
   background-color: #0e4e49;
@@ -234,6 +234,7 @@ export default {
   border-radius: 25px;
   border: 5px solid #c4c89f;
   margin-bottom: 25px;
+  text-transform: uppercase;
 }
 .img-product {
   background-color: rgb(17, 68, 60);

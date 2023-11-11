@@ -44,7 +44,7 @@
       
         <div class="">
           <label class="mb-3" for="comment">Comment:</label>
-          <textarea class="form-control" id="comment" v-model="comment"></textarea>
+          <textarea class="form-control" id="comment" v-model="comment" required></textarea>
         </div>
         <div class="">
           <label class="my-3" for="image">Image:</label>

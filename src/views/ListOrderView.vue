@@ -2,10 +2,7 @@
   <headerAdminVue></headerAdminVue>
 
   <div class="text-center">
-    <table class="table table-bordered">
-      <div v-if="showMessage" class="alert text-center" role="alert">
-        {{ message }}
-      </div>
+    <table class="table table-bordered  table-striped align-middle">
       <thead class="table-dark">
         <tr>
           <th scope="col">Tên khách hàng</th>
@@ -14,33 +11,33 @@
           <th scope="col">Tổng Hóa Đơn</th>
           <th scope="col">Ngày đặt đơn</th>
           <th scope="col">Địa Chỉ</th>
-          <th scope="col">Ghi Chú</th>
           <th scope="col">Trạng thái</th>
           <th scope="col">Ngày giao</th>
-
           <th scope="col">Thao Tác</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="">
         <tr v-for="order in orders" :key="order.order._id">
           <td>{{ order.user.name }}</td>
           <td>
             <table class="table">
-              <thead class="table-secondary">
+              <thead class="table-warning ">
                 <tr>
                   <th>Tên sản phẩm</th>
                   <th>Size</th>
                   <th>Số Lượng</th>
+                  <th>Note</th>
                   <th>Giá</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="table-group-divider">
                 <tr v-for="detail in order.orderDetail" :key="detail._id">
                   <td>{{ detail.product.name }}</td>
                   <td>
-                   {{ sizeProduct(order.orderDetail) }}
+                    {{ sizeProduct(detail) }}
                   </td>
                   <td>{{ detail.quantityProduct }}</td>
+                  <td>{{ getOrderNote(detail) }}</td>
                   <td>{{ detail.priceAll }}</td>
                 </tr>
               </tbody>
@@ -50,7 +47,6 @@
           <td>{{ calculateTotalPrice(order.orderDetail) }}</td>
           <td>{{ order.order.dayOrder }}</td>
           <td>{{ getOrderAddress(order.orderDetail) }}</td>
-          <td>{{ getOrderNote(order.orderDetail) }}</td>
           <td>{{ order.order.status }}</td>
           <td v-if="order.order.status === 'Đã giao'">{{ order.order.dayCurrent }}</td>
           <td v-else>Chưa xác nhận</td>
@@ -69,6 +65,25 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="modal" id="modal-success-order" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Thông Báo</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h1>Xác nhận sau 5s</h1>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -83,7 +98,7 @@ export default {
     return {
       orders: [],
       currentDate: '',
-      message: '',
+
       showMessage: false
     }
   },
@@ -134,18 +149,17 @@ export default {
       }
       return totalQuantity
     },
-    sizeProduct(orderDetail) {
-      let size = null
-      for (const detail of orderDetail) {
-        const price = parseInt(detail.priceAll.replace(/,/g, ' '), 10)
-        const quantity = parseInt(detail.quantityProduct)
-        if (price / quantity ===  parseInt(detail.product.sizeS)) {
-          size = 'S'
-        } else {
-          size = 'M'
-        }
+    sizeProduct(detail) {
+      const price = parseInt(detail.priceAll.replace(/,/g, ' '), 10)
+      // console.log(price);
+      const quantity = parseInt(detail.quantityProduct)
+      console.log('size gốc', parseFloat(detail.product.sizeS.replace(/,/g, ' ')))
+
+      if (price / quantity == parseFloat(detail.product.sizeS.replace(/,/g, ' '))) {
+        return 'S'
+      } else {
+        return 'M'
       }
-      return size
     },
 
     calculateTotalPrice(orderDetail) {
@@ -161,10 +175,8 @@ export default {
         return detail.localUser
       }
     },
-    getOrderNote(orderDetail) {
-      for (const detail of orderDetail) {
-        return detail.note
-      }
+    getOrderNote(detail) {
+      return detail.note
     },
     async updateOrderStatus(orderId, status) {
       const dayCurrent = moment().format('DD-MM-YYYY HH:mm:ss')
@@ -174,11 +186,10 @@ export default {
           dayCurrent: dayCurrent
         })
         const updateOrder = response.data.order
-        this.message = 'Cập nhật sau 5 s'
-        this.showMessage = true
-        setTimeout(() => {
-          this.showMessage = false
-        }, 500)
+        $('#modal-success-order').modal('show')
+        setTimeout(function () {
+          $('#modal-success-order').modal('hide')
+        }, 2000)
         const orderIndex = this.orders.findIndex((order) => order.order._id === updateOrder._id)
         if (orderIndex !== -1) {
           this.orders[orderIndex].order.status = updateOrder.status

@@ -37,6 +37,7 @@
                 id="file"
                 @change="handleFile"
                 accept="*"
+                required
               />
               <div class="img text-center">
                 <img v-if="newImage" :src="newImage" alt="" width="250" height="250" />
@@ -76,6 +77,10 @@
             <div class="btn-add">
               <button class="btn btn-add-form" type="submit">Thêm Sản Phẩm Mới</button>
             </div>
+            <div  v-if="showMessage" class="alert alert-secondary text-center mt-2  d-flex "  role="alert">
+             
+             <div style="color: black; text-align: center;">{{ message }}</div>
+           </div>
           </form>
         </div>
       </div>
@@ -99,7 +104,9 @@ export default {
       sizeS: '',
       sizeM: '',
       details: '',
-      showForm: false
+      showForm: false,
+      messages: '',
+      showMessage: false
     }
   },
   components: {
@@ -154,7 +161,11 @@ export default {
           `http://localhost:3000/category/${this.categoryId}/products`,
           formData
         )
-
+        this.messages = response.data
+        this.showMessage = true
+        setTimeout(()=> {
+          this.showMessage = false
+        }, 1000)
         // Reset các giá trị form fields
         this.name = ''
         this.newImage = ''
@@ -180,6 +191,9 @@ export default {
 .back a {
   color: black;  
   font-size: 2rem;
+}
+.text-name-admin{
+  color: white;
 }
 .add-admin{
  background-color: rgba(74, 97, 65, 0.586);
