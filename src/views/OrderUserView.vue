@@ -121,7 +121,6 @@ export default {
           } else {
             this.count = false
           }
-          // this.calculateOrderCount()
         })
         .catch((error) => {
           console.error(error)
@@ -143,7 +142,6 @@ export default {
     },
     getOrderAddress(orderDetail) {
       for (const detail of orderDetail) {
-        // console.log(detail.localUser)
         return detail.localUser
       }
     }

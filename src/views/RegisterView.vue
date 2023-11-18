@@ -1,9 +1,9 @@
 <template>
   <headerVue></headerVue>
-  <main class="main-regis">
+  <main class="main-regis ">
     <div class="container use-full">
       <div class="row">
-        <div class="col-md-8 offset-md-2 form-full-1">
+        <div class="col-md-8 offset-md-2  my-5 form-full-1">
           <div class="regis-name rounded-bottom">
             <p>REGISTER</p>
           </div>
@@ -63,10 +63,9 @@
               <div v-if="showMessage" class="alert" role="alert">
                 {{ message }}
               </div>
-              <div class="btn-regis">
+              <div class="btn-regis mt-3">
                 <button type="submit" class="btn btn-sub">Đăng Ký</button>
               </div>
-              <!-- <span class="d-block">{{ message }}</span> -->
             </form>
           </div>
         </div>
@@ -137,15 +136,10 @@ export default {
   margin: 0;
 }
 .form-regis {
-  /* background-color: antiquewhite; */
   background: url('/img/png/nen.jpg') top center / cover no-repeat;
-  /* margin: 50px 0; */
   margin-bottom: 50px;
   padding: 50px 50px;
-  /* padding: 10px 40px; */
-
   border-radius: 25px;
-  /* opacity: 0.9; */
   box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.271);
 }
 .regis-name {
@@ -163,7 +157,6 @@ export default {
   background-color: rgb(255, 255, 255);
   text-align: center;
   border-radius: 25px;
-  /* width: max-content; */
 }
 .name-label label {
   color: rgb(0, 0, 0);

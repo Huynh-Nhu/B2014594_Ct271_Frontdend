@@ -192,10 +192,7 @@ export default {
             localUser: this.localUser,
             note: cart.note
           }))
-          console.log(orderDetails.idProduct)
-          console.log(orderDetails)
           const orderData = { idUser, dayOrder, status, orderDetails }
-          console.log('orderData', orderData)
           try {
             await axios.post('http://localhost:3000/order/', orderData).then((response) => {
               console.log(this.carts)
@@ -206,7 +203,6 @@ export default {
             this.carts = []
             this.localUser = ''
             this.length = this.carts.length
-            // this.$router.push('/cart')
           } catch (err) {
             console.log(err)
           }
@@ -233,15 +229,11 @@ export default {
       return total.toLocaleString('vi-VN', { minimumFractionDigits: 3 })
     },
     async removeCart(cart) {
-      // const cartStore = useCartStore();
-
-      console.log('Cart', cart._id)
       try {
-        axios.delete(`http://localhost:3000/cart/show/${cart._id}`)
+       await axios.delete(`http://localhost:3000/cart/show/${cart._id}`)
         const index = this.carts.findIndex((item) => item._id === cart._id) // tim vi tri của mảng cần xóa trong code dựa theo id
         if (index !== -1) {
           this.carts.splice(index, 1) // Xóa sản phẩm khỏi mảng carts
-          // cartStore. decrementCartQuantity();
         }
         this.length = this.carts.length
       } catch (err) {
@@ -251,7 +243,6 @@ export default {
     async clear() {
       const userId = sessionStorage.getItem('id')
       const cartId = this.carts.map((cart) => cart._id)
-      console.log(cartId)
       axios.delete(`http://localhost:3000/cart/${userId}`).then((response) => {})
     },
     hideModal() {

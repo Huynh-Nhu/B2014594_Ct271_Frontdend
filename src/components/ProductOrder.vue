@@ -39,9 +39,6 @@
 
           </div>
         </div>
-        <!-- <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div> -->
       </div>
     </div>
   </div>
@@ -63,14 +60,12 @@ export default {
   methods: {
     fetchProductOrders() {
       for (const detail of this.orderDetail) {
-        console.log(detail)
         axios.get(`http://localhost:3000/order/product/${detail.idProduct}`).then((response) => {
           const productWithPrice = { ...response.data, price: detail.priceAll, quantity: detail.quantityProduct }
           this.productOrder.push(productWithPrice)
-          // console.log(response.data);
+         
         })
       }
-      // console.log(this.orderDetail)
     }
   }
 }

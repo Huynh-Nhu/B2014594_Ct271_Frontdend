@@ -104,28 +104,24 @@ export default {
     async showCate() {
       axios.get('http://localhost:3000/category/listCate').then((response) => {
         this.categories = response.data
-        // console.log(this.categories);
       })
     },
 
     async showProducts(categoryId) {
-      //   console.log('category', categoryId)
       const productAll = {}
       try {
         await axios.get('http://localhost:3000/product/home').then((response) => {
           response.data.map((product) => {
-            // console.log('product category ', product.category)
             if (product.category === categoryId && product.status === true) {
               productAll[product._id] = product
             }
-            console.log('productAll', productAll)
+            //gán một mảng chứa các giá trị thuộc tính của đối tượng productAll
             this.products = Object.values(productAll)
           })
         })
 
         const response = await axios.get('http://localhost:3000/product/img')
         const images = response.data
-        console.log(' img.nameProduct', response.data)
         this.products.forEach((product) => {
           const img = images.filter((img) => img.nameProduct === product._id)
           product.images = img

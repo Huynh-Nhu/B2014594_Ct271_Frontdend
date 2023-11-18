@@ -136,16 +136,13 @@ export default {
           .get('http://localhost:3000/product/home')
           .then((response) => {
             response.data.map((product) => {
-              // console.log(product.category);
               if (product.category === this.categoryId) {
-                // console.log(product);
                 productAll[product._id] = product
               }
               this.products = Object.values(productAll)
               console.log('productAll', productAll)
             })
             this.fetchShowImage()
-            // console.log(response.data);
           })
           .catch((error) => {
             console.log(error)
@@ -165,10 +162,8 @@ export default {
           const productImages = images.filter((img) => img.nameProduct === product._id)
           if (productImages) {
             console.log('productImages', productImages)
+            product.images = productImages
           }
-          product.images = productImages
-          // console.log(" product.images", product.images);
-          // console.log(" img.nameProduct", img.nameProduct);
         })
       } catch (error) {
         console.log(error)

@@ -151,17 +151,15 @@ export default {
     },
     sizeProduct(detail) {
       const price = parseInt(detail.priceAll.replace(/,/g, ' '), 10)
-      // console.log(price);
       const quantity = parseInt(detail.quantityProduct)
-      console.log('size gốc', parseFloat(detail.product.sizeS.replace(/,/g, ' ')))
-
+      //chuyển đổi chuỗi thành một số thực.
       if (price / quantity == parseFloat(detail.product.sizeS.replace(/,/g, ' '))) {
         return 'S'
       } else {
         return 'M'
       }
     },
-
+    // giá tiển của tổng hóa đơn
     calculateTotalPrice(orderDetail) {
       let totalPrice = 0
       for (const detail of orderDetail) {
@@ -171,7 +169,6 @@ export default {
     },
     getOrderAddress(orderDetail) {
       for (const detail of orderDetail) {
-        // console.log(detail.localUser)
         return detail.localUser
       }
     },

@@ -167,9 +167,6 @@ export default {
   margin: 50px 0;
 }
 
-.form-connect label {
-  /* margin: 10px; */
-}
 .text-connect{
   font-size: 18px;
   background-color: black;

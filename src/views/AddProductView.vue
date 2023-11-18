@@ -155,8 +155,6 @@ export default {
         formData.append('sizeM', this.sizeM)
         formData.append('details', this.details)
         console.log(this.file)
-        console.log(formData)
-        // const categoryId = this
         const response = await axios.post(
           `http://localhost:3000/category/${this.categoryId}/products`,
           formData
